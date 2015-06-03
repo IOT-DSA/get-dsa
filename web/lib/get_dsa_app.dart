@@ -1,9 +1,9 @@
-import 'dart:async';
+library get_dsa.elements.app;
+
 import 'dart:html';
 
 import 'package:polymer/polymer.dart';
 import 'package:core_elements/core_drawer_panel.dart';
-import 'get_dsa_welcome.dart';
 
 final NodeValidatorBuilder htmlValidator = new NodeValidatorBuilder.common()
   ..allowHtml5()

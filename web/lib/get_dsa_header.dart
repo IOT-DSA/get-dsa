@@ -1,4 +1,4 @@
-import 'dart:html';
+library get_dsa.elements.header;
 
 import 'package:polymer/polymer.dart';
 import 'package:paper_elements/paper_tabs.dart';
