@@ -1,0 +1,9 @@
+name: get_dsa
+publish_to: none
+dependencies:
+  polymer: "^0.16.3+3"
+  core_elements: "^0.7.1+2"
+  paper_elements: "^0.7.1"
+transformers:
+- polymer:
+    entry_points: web/index.html
