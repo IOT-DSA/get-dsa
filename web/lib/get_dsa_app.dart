@@ -5,11 +5,6 @@ import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:core_elements/core_drawer_panel.dart';
 
-final NodeValidatorBuilder htmlValidator = new NodeValidatorBuilder.common()
-  ..allowHtml5()
-  ..allowCustomElement("get-dsa-welcome")
-  ..allowCustomElement("get-dsa-download");
-
 @CustomTag('get-dsa-app')
 class GetDsaAppElement extends PolymerElement {
   int _preWidth = 0;
