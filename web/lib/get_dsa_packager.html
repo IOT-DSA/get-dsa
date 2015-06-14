@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<link rel="import" href="packages/paper_elements/paper_button.html">
+<link rel="import" href="packages/paper_elements/paper_icon_button.html">
+<link rel="import" href="packages/paper_elements/paper_tab.html">
+<link rel="import" href="packages/paper_elements/paper_dropdown.html">
+<link rel="import" href="packages/paper_elements/paper_dropdown_menu.html">
+<link rel="import" href="packages/paper_elements/paper_tabs.html">
+<link rel="import" href="packages/paper_elements/paper_item.html">
+<link rel="import" href="packages/core_elements/core_icons.html">
+<link rel="import" href="packages/core_elements/core_menu.html">
+<link rel="import" href="packages/core_elements/core_label.html">
+
+<polymer-element name="get-dsa-packager">
+  <template>
+    <style>
+      [text-center] {
+        text-align: center;
+      }
+
+      [field-name] {
+        padding-top: 20px;
+        width: 256px;
+      }
+
+      :host /deep/ paper-dropdown-menu {
+        padding: 20px 20px 20px 20px;
+        box-sizing: border-box;
+        width: 256px;
+      }
+
+      :host /deep/ core-menu {
+        box-sizing: border-box;
+        width: 170px;
+      }
+
+      :host /deep/ paper-item {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      :host /deep/ core-collapse {
+        border: 1px solid #ccc;
+        padding: 8px;
+      }
+
+      :host /deep/ core-overlay {
+        border: 1px solid #ccc;
+        padding: 8px;
+        background: #fff;
+      }
+
+      .constrained-height {
+        height: 150px;
+      }
+
+      .colored {
+        color: #0f9d58;
+      }
+      .dropdown.colored::shadow #ripple,
+      .dropdown.colored::shadow #background {
+        border: 1px solid #0f9d58;
+        background-color: #b7e1cd;
+      }
+    </style>
+
+    <div horizontal layout center-justified>
+      <div vertical layout center-justified>
+        <core-label horizontal layout>
+          <div vertical layout>
+            <h4 field-name>Platform</h4>
+          </div>
+          <paper-dropdown-menu label="Platform">
+            <paper-dropdown class="dropdown">
+              <core-menu id="platform" class="menu">
+                <template repeat="{{platform in platforms.keys}}">
+                  <paper-item value="{{platform}}">{{platform}}</paper-item>
+                </template>
+              </core-menu>
+            </paper-dropdown>
+          </paper-dropdown-menu>
+        </core-label>
+
+        <core-label horizontal layout>
+          <div vertical layout>
+            <h4 field-name>Distribution Type</h4>
+          </div>
+          <paper-dropdown-menu label="Distribution Type">
+            <paper-dropdown class="dropdown">
+              <core-menu id="dist-type" class="menu">
+                <template repeat="{{dist in dists}}">
+                  <paper-item value="{{dist.id}}">{{dist.name}}</paper-item>
+                </template>
+              </core-menu>
+            </paper-dropdown>
+          </paper-dropdown-menu>
+        </core-label>
+
+        <paper-button on-tap="{{createDistPackage}}">Build Package</paper-button>
+      </div>
+    </div>
+  </template>
+  <script type="application/dart" src="get_dsa_packager.dart"></script>
+
+  <script>function download(e,t,n){function o(e){var t=e.split(/[:;,]/),n=t[1],o="base64"==t[2]?atob:decodeURIComponent,a=o(t.pop()),r=a.length,i=0,d=new Uint8Array(r);for(i;r>i;++i)d[i]=a.charCodeAt(i);return new p([d],{type:n})}function a(e,t){if("download"in f)return f.href=e,f.setAttribute("download",v),f.innerHTML="downloading...",s.body.appendChild(f),setTimeout(function(){f.click(),s.body.removeChild(f),t===!0&&setTimeout(function(){l.URL.revokeObjectURL(f.href)},250)},66),!0;var n=s.createElement("iframe");s.body.appendChild(n),t||(e="data:"+e.replace(/^data:([\w\/\-\+]+)/,c)),n.src=e,setTimeout(function(){s.body.removeChild(n)},333)}var r,i,d,l=window,c="application/octet-stream",u=n||c,b=e,s=document,f=s.createElement("a"),m=function(e){return String(e)},p=l.Blob||l.MozBlob||l.WebKitBlob||m,w=l.MSBlobBuilder||l.WebKitBlobBuilder||l.BlobBuilder,v=t||"download";if("true"===String(this)&&(b=[b,u],u=b[0],b=b[1]),String(b).match(/^data\:[\w+\-]+\/[\w+\-]+[,;]/))return navigator.msSaveBlob?navigator.msSaveBlob(o(b),v):a(b);try{r=b instanceof p?b:new p([b],{type:u})}catch(B){w&&(i=new w,i.append([b]),r=i.getBlob(u))}if(navigator.msSaveBlob)return navigator.msSaveBlob(r,v);if(l.URL)a(l.URL.createObjectURL(r),!0);else{if("string"==typeof r||r.constructor===m)try{return a("data:"+u+";base64,"+l.btoa(r))}catch(B){return a("data:"+u+","+encodeURIComponent(r))}d=new FileReader,d.onload=function(){a(this.result)},d.readAsDataURL(r)}return!0}</script>
+</polymer-element>

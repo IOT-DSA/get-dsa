@@ -3,3 +3,5 @@
 packages
 build/
 .idea
+package.zip
+pkg/
