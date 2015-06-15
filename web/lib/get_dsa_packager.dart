@@ -65,7 +65,7 @@ class GetDsaPackagerElement extends PolymerElement {
       rp = "mac";
     }
 
-    var package = buildPackage(distArchive, dartSdkArchive, [], platform: platform.split("-").first);
+    var package = buildPackage(distArchive, dartSdkArchive, [], platform: rp);
     print("Built Package.");
     await null;
     var blob = new Blob([await compressZip(package)], "application/zip");
