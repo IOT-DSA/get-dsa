@@ -20,6 +20,11 @@ class DSLinkPackage {
 Archive buildPackage(Archive baseDistribution, Archive dartSdk, List<DSLinkPackage> links, {List<String> wrappers, String platform: "unknown"}) {
   var pkg = new Archive();
   pkg.files.addAll(baseDistribution.files);
+
+  if (!dartSdk.files.every((f) => f.name.startsWith("dart-sdk/"))) {
+    dartSdk.files.forEach((f) => f.name = "dart-sdk/${f.name}");
+  }
+
   pkg.files.addAll(dartSdk);
   for (var link in links) {
     var archive = link.archive;
