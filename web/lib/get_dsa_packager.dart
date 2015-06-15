@@ -23,7 +23,9 @@ class GetDsaPackagerElement extends PolymerElement {
     "x86 Mac OS": "macos-ia32",
     "x64 Mac OS": "macos-x64",
     "ARM Linux": "arm",
-    "DGBox": "dgbox"
+    "DGBox": "dgbox",
+    "Beaglebone": "beaglebone",
+    "MIPS Creator CI20": "ci20"
   });
 
   @observable
@@ -53,6 +55,7 @@ class GetDsaPackagerElement extends PolymerElement {
 
     if (platform.startsWith("linux-")
       || platform == "dgbox"
+      || platform == "beaglebone"
       || platform == "arm"
       || platform == "ci20") {
       rp = "linux";
