@@ -15,14 +15,22 @@ class Distribution {
   final String name;
   final String latest;
   final String file;
+  final List<String> wrappers;
 
-  Distribution(this.id, this.name, this.latest, this.file);
+  Distribution(this.id, this.name, this.latest, this.file, this.wrappers);
 
   factory Distribution.fromJSON(String id, input) {
-    return new Distribution(id, input["displayName"], input["latest"], input["file"]);
+    return new Distribution(
+        id,
+        input["displayName"],
+        input["latest"],
+        input["file"],
+        input.containsKey("wrappers") ? input["wrappers"] : []
+    );
   }
 
   String createZipUrl() => "${BASE_DIST_URL}/${id}/${latest}/${file}";
+
   Future<Archive> download() async {
     var bytes = await readUrlBytes(createZipUrl());
     await null;
@@ -34,7 +42,8 @@ class Distribution {
       "id": id,
       "name": name,
       "latest": latest,
-      "file": file
+      "file": file,
+      "wrappers": wrappers
     };
   }
 }
