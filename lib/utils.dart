@@ -8,8 +8,11 @@ Future<Archive> readArchive(List<int> bytes, {bool decompress: false}) async {
   if (bytes[0] == 80 && bytes[1] == 75 && bytes[2] == 3 && bytes[3] == 4) {
     Archive archive = await (new CustomZipDecoder().decodeBytes(bytes));
     for (var file in archive.files) {
-      if (decompress && file.isCompressed) {
-        file.decompress();
+      if (decompress) {
+        if (file.isCompressed) {
+          file.decompress();
+        }
+        
         if (!file.name.endsWith(".js")) {
           file.compress = false;
         }
