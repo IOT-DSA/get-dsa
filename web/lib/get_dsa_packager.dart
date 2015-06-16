@@ -6,6 +6,7 @@ import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:get_dsa/bdist.dart';
 import 'package:core_elements/core_menu.dart';
+import 'package:paper_elements/paper_spinner.dart';
 import 'package:paper_elements/paper_item.dart';
 import 'package:get_dsa/packager.dart';
 import 'package:get_dsa/utils.dart';
@@ -51,10 +52,17 @@ class GetDsaPackagerElement extends PolymerElement {
     String platform = platforms[platformName];
     Distribution dist = dists.firstWhere((x) => x.id == distId);
 
+    var spinner = $["spinner"] as PaperSpinner;
+    spinner.active = true;
+
+    var status = $["status"] as ParagraphElement;
+
     print("Fetching Distribution...");
+    status.text = "Fetching Distribution";
     var distArchive = await dist.download();
     print("Distribution Fetched.");
     print("Fetching Dart SDK...");
+    status.text = "Fetching Dart SDK";
     var dartSdkArchive = await fetchDartSdk(platform);
     print("Dart SDK Fetched.");
 
@@ -63,6 +71,7 @@ class GetDsaPackagerElement extends PolymerElement {
     print("Fetching DSLinks...");
     for (var l in ourLinks) {
       print("Fetching DSLink '${l["displayName"]}'");
+      status.text = "Fetching DSLink '${l["displayName"]}'";
       var archive = await fetchArchive(l["zip"]);
       var pkg = new DSLinkPackage(l["displayName"], archive);
       pkgs.add(pkg);
@@ -70,6 +79,8 @@ class GetDsaPackagerElement extends PolymerElement {
       print("DSLink '${l["displayName"]}' fetched.");
     }
     print("DSLinks Fetched.");
+
+    status.text = "Building Package";
 
     print("Building Package...");
 
@@ -92,9 +103,12 @@ class GetDsaPackagerElement extends PolymerElement {
     await null;
     var blob = new Blob([await compressZip(package)], "application/zip");
     await null;
+    status.text = "Downloading Package";
     print("Downloading Package...");
     context.callMethod("download", [blob, "dsa.zip"]);
     print("Complete!");
+    status.text = "";
+    spinner.active = false;
   }
 }
 

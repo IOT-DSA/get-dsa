@@ -11,6 +11,7 @@
 <link rel="import" href="packages/core_elements/core_icons.html">
 <link rel="import" href="packages/core_elements/core_menu.html">
 <link rel="import" href="packages/core_elements/core_label.html">
+<link rel="import" href="packages/paper_elements/paper_spinner.html">
 
 <polymer-element name="get-dsa-packager">
   <template>
@@ -58,6 +59,10 @@
 
       .colored {
         color: #0f9d58;
+      }
+
+      [inline-block] {
+        display: inline-block;
       }
 
       .bottom-padding-twenty {
@@ -118,6 +123,11 @@
         </core-label>
 
         <paper-button on-tap="{{createDistPackage}}">Build Package</paper-button>
+        <div horizontal center-justified layout>
+          <paper-spinner inline-block self-center id="spinner"></paper-spinner>
+          <span>&nbsp;</span>
+          <p self-center id="status"></p>
+        </div>
       </div>
     </div>
   </template>

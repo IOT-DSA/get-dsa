@@ -35,7 +35,7 @@ class Distribution {
   Future<Archive> download() async {
     var bytes = await readUrlBytes(createZipUrl());
     await null;
-    return await readArchive(bytes);
+    return await readArchive(bytes, decompress: true);
   }
 
   Map toJSON() {

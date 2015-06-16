@@ -4,15 +4,32 @@ import "dart:async";
 
 import "package:archive/archive.dart";
 
-Future<Archive> readArchive(List<int> bytes) async {
+Future<Archive> readArchive(List<int> bytes, {bool decompress: false}) async {
   if (bytes[0] == 80 && bytes[1] == 75 && bytes[2] == 3 && bytes[3] == 4) {
-    return await (new CustomZipDecoder().decodeBytes(bytes));
+    Archive archive = await (new CustomZipDecoder().decodeBytes(bytes));
+    for (var file in archive.files) {
+      if (decompress && file.isCompressed) {
+        file.decompress();
+      }
+    }
+    return archive;
   } else {
     throw new Exception("Unknown Archive Format");
   }
 }
 
 Future<List<int>> compressZip(Archive archive) async {
+  for (var file in archive.files) {
+    if (file.name.endsWith(".zip")
+      || file.name.endsWith(".png")
+      || file.name.endsWith(".jpg")
+      || file.name.endsWith("BUILD_NUMBER")
+      || file.name.endsWith(".jpeg")
+      || file.name.endsWith(".gif")) {
+      file.compress = false;
+    }
+  }
+
   return await (new CustomZipEncoder().encode(archive, level: Deflate.NO_COMPRESSION));
 }
 
