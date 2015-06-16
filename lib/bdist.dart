@@ -8,6 +8,7 @@ import "dart:typed_data";
 import "package:archive/archive.dart";
 import "utils.dart";
 
+const String BASE_LINKS_URL = "http://iot-dsa.github.io/links";
 const String BASE_DIST_URL = "http://iot-dsa.github.io/dists";
 
 class Distribution {
@@ -59,6 +60,12 @@ Future<List<Distribution>> loadDistributions() async {
   return l;
 }
 
+Future<List<Map<String, dynamic>>> loadLinks() async {
+  var content = await HttpRequest.getString("${BASE_LINKS_URL}/links.json");
+  var json = JSON.decode(content);
+  return json;
+}
+
 Future<Archive> fetchDartSdk(String platform) async {
   String url;
 
@@ -73,6 +80,10 @@ Future<Archive> fetchDartSdk(String platform) async {
   await null;
 
   return await readArchive(bytes);
+}
+
+Future<Archive> fetchArchive(String url) async {
+  return await readArchive(await readUrlBytes(url));
 }
 
 Future<List<int>> readUrlBytes(String url) {

@@ -15,6 +15,14 @@ class DSLinkPackage {
   final Archive archive;
 
   DSLinkPackage(this.name, this.archive);
+
+  void rewriteFilePaths() {
+    if (archive.files.every((f) => f.name.split("/").length >= 2)) {
+      archive.files.forEach((file) {
+        file.name = file.name.split("/").skip(1).join("/");
+      });
+    }
+  }
 }
 
 Archive buildPackage(Archive baseDistribution, Archive dartSdk, List<DSLinkPackage> links, {List<String> wrappers, String platform: "unknown"}) {
@@ -37,6 +45,8 @@ Archive buildPackage(Archive baseDistribution, Archive dartSdk, List<DSLinkPacka
     archive.files.forEach((file) {
       file.name = "dslinks/${link.name}/${file.name}";
     });
+
+    pkg.files.addAll(archive.files);
   }
 
   if (wrappers != null) {

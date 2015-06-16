@@ -14,10 +14,12 @@ class GetDsaHeaderElement extends PolymerElement {
   GetDsaHeaderElement.created() : super.created() {
     dsaHeader = this;
     addEventListener('core-select', (_) {
-      var selected = (($["navTabs"] as PaperTabs).selectedItem as PaperTab);
-      if (selected != null) {
-        asyncFire("page-change", detail: selected.text);
-      }
+      try {
+        var selected = (($["navTabs"] as PaperTabs).selectedItem as PaperTab).attributes["label"];
+        if (selected != null) {
+          asyncFire("page-change", detail: selected);
+        }
+      } catch (e) {}
     });
   }
 
@@ -26,6 +28,6 @@ class GetDsaHeaderElement extends PolymerElement {
   }
 
   void changeTab(String name) {
-    ($["navTabs"] as PaperTabs).selected = name;
+    ($["navTabs"] as PaperTabs).selected = tabs.indexOf(name);
   }
 }
