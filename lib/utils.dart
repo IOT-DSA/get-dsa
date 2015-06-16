@@ -13,7 +13,7 @@ Future<Archive> readArchive(List<int> bytes) async {
 }
 
 Future<List<int>> compressZip(Archive archive) async {
-  return await (new CustomZipEncoder().encode(archive));
+  return await (new CustomZipEncoder().encode(archive, level: Deflate.NO_COMPRESSION));
 }
 
 class CustomZipDecoder {
