@@ -25,9 +25,13 @@ class DSLinkPackage {
   }
 }
 
-Archive buildPackage(Archive baseDistribution, Archive dartSdk, List<DSLinkPackage> links, {List<String> wrappers, String platform: "unknown"}) {
+Archive buildPackage(String distName, Archive baseDistribution, Archive dartSdk, List<DSLinkPackage> links, {List<String> wrappers, String platform: "unknown"}) {
   var pkg = new Archive();
-  pkg.files.addAll(baseDistribution.files);
+
+  pkg.files.addAll(baseDistribution.files.map((x) {
+    x.name = "${distName}/${x.name}";
+    return x;
+  }));
 
   if (!dartSdk.files.every((f) => f.name.startsWith("dart-sdk/"))) {
     dartSdk.files.forEach((f) => f.name = "dart-sdk/${f.name}");
@@ -43,7 +47,7 @@ Archive buildPackage(Archive baseDistribution, Archive dartSdk, List<DSLinkPacka
     }
 
     archive.files.forEach((file) {
-      file.name = "dslinks/${link.name}/${file.name}";
+      file.name = "${distName}/dslinks/${link.name}/${file.name}";
     });
 
     pkg.files.addAll(archive.files);
