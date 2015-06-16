@@ -10,6 +10,9 @@ Future<Archive> readArchive(List<int> bytes, {bool decompress: false}) async {
     for (var file in archive.files) {
       if (decompress && file.isCompressed) {
         file.decompress();
+        if (!file.name.endsWith(".js")) {
+          file.compress = false;
+        }
       }
     }
     return archive;
