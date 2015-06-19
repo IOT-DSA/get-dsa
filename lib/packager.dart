@@ -1,6 +1,5 @@
 library get_dsa.packager;
 
-import "dart:async";
 import "dart:convert";
 
 import "package:archive/archive.dart";

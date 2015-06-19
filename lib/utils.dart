@@ -12,7 +12,7 @@ Future<Archive> readArchive(List<int> bytes, {bool decompress: false}) async {
         if (file.isCompressed) {
           file.decompress();
         }
-        
+
         if (!file.name.endsWith(".js")) {
           file.compress = false;
         }

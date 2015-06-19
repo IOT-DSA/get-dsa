@@ -73,7 +73,7 @@ class GetDsaPackagerElement extends PolymerElement {
       print("Fetching DSLink '${l["displayName"]}'");
       status.text = "Fetching DSLink '${l["displayName"]}'";
       var archive = await fetchArchive(l["zip"]);
-      var pkg = new DSLinkPackage(l["displayName"], archive);
+      var pkg = new DSLinkPackage(l["name"], archive);
       pkgs.add(pkg);
       pkg.rewriteFilePaths();
       print("DSLink '${l["displayName"]}' fetched.");
