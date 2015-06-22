@@ -8,8 +8,8 @@ import "dart:typed_data";
 import "package:archive/archive.dart";
 import "utils.dart";
 
-const String BASE_LINKS_URL = "http://iot-dsa.github.io/links";
-const String BASE_DIST_URL = "http://iot-dsa.github.io/dists";
+const String BASE_LINKS_URL = "https://iot-dsa.github.io/links";
+const String BASE_DIST_URL = "https://iot-dsa.github.io/dists";
 
 class Distribution {
   final String id;
