@@ -9,6 +9,13 @@ const String SHELL_DART_WRAPPER = r"""
 $(dirname $0)/../../dart-sdk/bin/dart ${0%.sh}.dart ${@}
 """;
 
+const String BATCH_DART_WRAPPER = r"""
+@echo off
+set me=%~f0
+set me=%me:~0,-4%
+%~0\..\..\..\dart-sdk\bin\dart.exe %me%.dart %*
+""";
+
 class DSLinkPackage {
   final String name;
   final Archive archive;
@@ -57,6 +64,9 @@ Archive buildPackage(String distName, Archive baseDistribution, Archive dartSdk,
       if (platform == "linux" || platform == "mac") {
         var encoded = UTF8.encode(SHELL_DART_WRAPPER);
         pkg.addFile(new ArchiveFile("${distName}/bin/${wrapper}.sh", encoded.length, encoded)..mode = 777);
+      } else if (platform == "windows") {
+        var encoded = UTF8.encode(BATCH_DART_WRAPPER);
+        pkg.addFile(new ArchiveFile("${distName}/bin/${wrapper}.bat", encoded.length, encoded)..mode = 777);
       }
     }
   }
