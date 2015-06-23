@@ -1,8 +1,11 @@
 library get_dsa.utils;
 
 import "dart:async";
+import "dart:typed_data";
 
-import "package:archive/archive.dart";
+import "package:archive/archive.dart" hide Deflate;
+
+part "src/deflate.dart";
 
 Future<Archive> readArchive(List<int> bytes, {bool decompress: false}) async {
   if (bytes[0] == 80 && bytes[1] == 75 && bytes[2] == 3 && bytes[3] == 4) {
@@ -52,7 +55,7 @@ class CustomZipDecoder {
     Archive archive = new Archive();
 
     for (ZipFileHeader zfh in directory.fileHeaders) {
-      await null;
+      await new Future.value();
       ZipFile zf = zfh.file;
 
       if (verify) {
@@ -99,7 +102,7 @@ class CustomZipEncoder {
     // Prepare the files, so we can know ahead of time how much space we need
     // for the output buffer.
     for (ArchiveFile file in archive.files) {
-      await null;
+      await new Future.value();
       fileData[file] = {};
       fileData[file]['time'] = time;
       fileData[file]['date'] = date;
@@ -136,7 +139,11 @@ class CustomZipEncoder {
         // Otherwise we need to compress it now.
         crc32 = getCrc32(file.content);
 
-        List<int> bytes = new Deflate(file.content, level: level).getBytes();
+        Deflate deflate = new Deflate(file.content, level: level);
+
+        await deflate.deflate();
+
+        List<int> bytes = deflate.getBytes();
         compressedData = new InputStream(bytes);
       }
 
@@ -208,7 +215,7 @@ class CustomZipEncoder {
     int os = OS_UNIX;
 
     for (ArchiveFile file in archive.files) {
-      await null;
+      await new Future.value();
       int versionMadeBy = (os << 8) | version;
       int versionNeededToExtract = version;
       int generalPurposeBitFlag = 0;
@@ -336,7 +343,7 @@ class CustomZipDirectory {
     centralDirectorySize);
 
     while (!dirContent.isEOS) {
-      await null;
+      await new Future.value();
       int fileSig = dirContent.readUint32();
       if (fileSig != ZipFileHeader.SIGNATURE) {
         break;

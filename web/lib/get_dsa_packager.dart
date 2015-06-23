@@ -101,6 +101,12 @@ class GetDsaPackagerElement extends PolymerElement {
     });
   }
 
+  selectAllLinks() {
+    shadowRoot.querySelectorAll(".link-checkbox").forEach((PaperCheckbox box) {
+      box.checked = true;
+    });
+  }
+
   createDistPackage() async {
     String platformName = (($["platform"] as CoreMenu).selectedItem as PaperItem).attributes["value"];
     String distId = (($["dist-type"] as CoreMenu).selectedItem as PaperItem).attributes["value"];
@@ -158,9 +164,9 @@ class GetDsaPackagerElement extends PolymerElement {
 
     var package = buildPackage(dist.id, distArchive, dartSdkArchive, pkgs, platform: rp, wrappers: dist.wrappers);
     print("Built Package.");
-    await null;
+    await new Future.value();
     var blob = new Blob([await compressZip(package)], "application/zip");
-    await null;
+    await new Future.value();
     status.text = "Downloading Package";
     print("Downloading Package...");
     context.callMethod("download", [blob, "dsa.zip"]);
