@@ -42,6 +42,9 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        height: 38px;
+        margin-top: 5px;
+        margin-bottom: 5px;
       }
 
       :host /deep/ core-collapse {
@@ -89,6 +92,10 @@
 
       .chkbox {
         margin-right: 6px;
+      }
+
+      #sdb {
+        height: 40px;
       }
 
       .dd-m-b {
@@ -152,13 +159,15 @@
             </div>
           </div>
           <div vertical layout class="scroll-heighted">
+            <p></p>
             <template repeat="{{link in links}}">
-              <core-label center horizontal layout>
+              <core-label center horizontal layout style="height: 38px;">
                 <core-tooltip flex label="{{link.description}}">
                   <div flex field-name>{{link.displayName}}</div>
                 </core-tooltip>
-                <paper-checkbox class="link-checkbox chkbox" value="{{link.displayName}}"></paper-checkbox>
+                <paper-checkbox center class="link-checkbox chkbox" value="{{link.displayName}}"></paper-checkbox>
               </core-label>
+              <p></p>
             </template>
           </div>
         </core-label>
