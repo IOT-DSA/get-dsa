@@ -4,6 +4,9 @@ import 'dart:html';
 
 import 'package:polymer/polymer.dart';
 import 'package:core_elements/core_drawer_panel.dart';
+import 'package:paper_elements/paper_dialog.dart';
+
+PaperDialog helpDialog;
 
 @CustomTag('get-dsa-app')
 class GetDsaAppElement extends PolymerElement {
@@ -27,6 +30,8 @@ class GetDsaAppElement extends PolymerElement {
       e.classes.add("content-page");
       e.children.add(pageElement);
     });
+
+    helpDialog = $["help-dialog"];
   }
 
   toggleDrawer() => ($["our-drawer"] as CoreDrawerPanel).togglePanel();

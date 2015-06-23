@@ -12,6 +12,7 @@
 <link rel="import" href="packages/core_elements/core_menu.html">
 <link rel="import" href="packages/core_elements/core_label.html">
 <link rel="import" href="packages/paper_elements/paper_spinner.html">
+<link rel="import" href="packages/core_elements/core_tooltip.html">
 
 <polymer-element name="get-dsa-packager">
   <template>
@@ -22,7 +23,7 @@
 
       [field-name] {
         padding-top: 20px;
-        width: 256px;
+        width: 264px;
       }
 
       :host /deep/ paper-dropdown-menu {
@@ -74,10 +75,20 @@
         border: 1px solid #0f9d58;
         background-color: #b7e1cd;
       }
+
+      .scroll-heighted {
+        height: 256px;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      .chkbox {
+        margin-right: 6px;
+      }
     </style>
 
     <div horizontal layout center-justified>
-      <div vertical layout center-justified>
+      <div class="configs" vertical layout center-justified>
         <core-label horizontal layout>
           <div vertical layout>
             <h4 field-name>Platform</h4>
@@ -112,11 +123,13 @@
           <div vertical layout>
             <h4 field-name>Links</h4>
           </div>
-          <div vertical layout>
+          <div vertical layout class="scroll-heighted">
             <template repeat="{{link in links}}">
               <core-label center horizontal layout>
-                <div flex field-name>{{link.displayName}}</div>
-                <paper-checkbox class="link-checkbox" value="{{link.displayName}}"></paper-checkbox>
+                <core-tooltip flex label="{{link.description}}">
+                  <div flex field-name>{{link.displayName}}</div>
+                </core-tooltip>
+                <paper-checkbox class="link-checkbox chkbox" value="{{link.displayName}}"></paper-checkbox>
               </core-label>
             </template>
           </div>

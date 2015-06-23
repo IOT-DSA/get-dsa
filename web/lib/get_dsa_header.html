@@ -51,16 +51,9 @@
         color: white;
       }
 
-      .sign-in {
-        background-color: rgb(250, 250, 250);
-        color: #03A9F4;
-        width: 120px;
-        height: 36px;
-        line-height: 36px;
-      }
-
-      .sign-in /deep/ .button-content {
-        padding: 0;
+      .help-button {
+        color: white;
+        right: 10px;
       }
     </style>
 
@@ -73,6 +66,10 @@
         </template>
       </paper-tabs>
       <div flex></div>
+
+      <div horizontal layout end-justified>
+        <paper-icon-button id="help" class="help-button" hidden icon="help"></paper-icon-button>
+      </div>
     </div>
   </template>
 

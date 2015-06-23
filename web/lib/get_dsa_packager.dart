@@ -1,5 +1,6 @@
 library get_dsa.elements.packager;
 
+import 'dart:async';
 import 'dart:js';
 import 'dart:html';
 
@@ -11,6 +12,42 @@ import 'package:paper_elements/paper_item.dart';
 import 'package:get_dsa/packager.dart';
 import 'package:get_dsa/utils.dart';
 import 'package:paper_elements/paper_checkbox.dart';
+import 'get_dsa_header.dart';
+
+String createPlatformHelp(String platform) {
+  String howToStart = """
+  <p>
+  Open a Terminal and change to the dglux_server directory in the extracted ZIP location.<br/>
+  Run the following commands:<br/>
+  <code>
+  chmod +x bin/*.sh</br>
+  ./bin/daemon.sh start
+  </code>
+  </p>
+
+  <p>Your DSA instance is now running!</p>
+  """;
+
+  if (platform.contains("Windows")) {
+    howToStart = """
+    <p>
+    Navigate to the dglux_server folder in the extracted ZIP location.<br/>
+    Open a new Command Prompt here.<br/>
+    Run the following command:<br/>
+    <code>
+    bin\\daemon.bat start
+    </code>
+    </p>
+
+    <p>Your DSA instance is now running!</p>
+    """;
+  }
+
+  return """
+  <p>Extract the ZIP file provided by the Get DSA Packager.<p>
+  ${howToStart}
+  """;
+}
 
 @CustomTag('get-dsa-packager')
 class GetDsaPackagerElement extends PolymerElement {
@@ -41,6 +78,27 @@ class GetDsaPackagerElement extends PolymerElement {
     super.attached();
     loadDistributions().then((d) => dists.addAll(d));
     loadLinks().then((l) => links.addAll(l.map((x) => new DSLinkModel(x))));
+
+    var pe = $["platform"] as CoreMenu;
+    pe.on["core-select"].listen((e) {
+      onPlatformSelected();
+    });
+  }
+
+  @override
+  detached() {
+    toggleHelpButton(false);
+  }
+
+  onPlatformSelected() {
+    new Future(() {
+      String platformName = (($["platform"] as CoreMenu).selectedItem as PaperItem).attributes["value"];
+
+      print("Selected Platform: ${platformName}");
+
+      setHelpContent(createPlatformHelp(platformName));
+      toggleHelpButton(true);
+    });
   }
 
   createDistPackage() async {
@@ -120,6 +178,7 @@ class DSLinkModel {
   String get displayName => json["displayName"];
   String get type => json["type"];
   String get zip => json["zip"];
+  String get description => json["description"];
 
   dynamic operator [](String name) {
     return json[name];
