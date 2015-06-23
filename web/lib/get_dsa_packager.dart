@@ -21,9 +21,11 @@ String createPlatformHelp(String platform) {
   Open a Terminal and change to the dglux_server directory in the extracted ZIP location.<br/>
   Run the following commands:<br/>
   <code>
-  chmod 777 bin/*.sh</br>
+  chmod 777 bin/*.sh<br/>
   ./bin/daemon.sh start
-  </code>
+  </code><br/>
+  You should be able to access DGLux5 at: http://localhost:8080<br/>
+  Default credentials are: dgSuper / dglux1234<br/>
   </p>
 
   <p>Your DSA instance is now running!</p>
@@ -37,7 +39,9 @@ String createPlatformHelp(String platform) {
     Run the following command:<br/>
     <code>
     bin\\daemon.bat start
-    </code>
+    </code><br/>
+  You should be able to access DGLux5 at: http://localhost:8080<br/>
+  Default credentials are: dgSuper / dglux1234<br/>
     </p>
 
     <p>Your DSA instance is now running!</p>
