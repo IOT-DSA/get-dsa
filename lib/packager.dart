@@ -6,7 +6,7 @@ import "package:archive/archive.dart";
 
 const String SHELL_DART_WRAPPER = r"""
 #!/usr/bin/env bash
-$(dirname $0)/../dart-sdk/bin/dart ${0}.dart ${@}
+$(dirname $0)/../../dart-sdk/bin/dart ${0%.sh}.dart ${@}
 """;
 
 class DSLinkPackage {
@@ -56,7 +56,7 @@ Archive buildPackage(String distName, Archive baseDistribution, Archive dartSdk,
     for (var wrapper in wrappers) {
       if (platform == "linux" || platform == "mac") {
         var encoded = UTF8.encode(SHELL_DART_WRAPPER);
-        pkg.addFile(new ArchiveFile("${distName}/bin/${wrapper}.sh", encoded.length, encoded)..mode = 755);
+        pkg.addFile(new ArchiveFile("${distName}/bin/${wrapper}.sh", encoded.length, encoded)..mode = 777);
       }
     }
   }
