@@ -3,11 +3,13 @@ library get_dsa.elements.packager;
 import 'dart:async';
 import 'dart:js';
 import 'dart:html';
+import 'dart:convert';
 
 import 'package:polymer/polymer.dart';
 import 'package:get_dsa/bdist.dart';
 import 'package:core_elements/core_menu.dart';
 import 'package:paper_elements/paper_spinner.dart';
+import 'package:paper_elements/paper_dropdown.dart';
 import 'package:paper_elements/paper_item.dart';
 import 'package:get_dsa/packager.dart';
 import 'package:get_dsa/utils.dart';
@@ -20,7 +22,7 @@ String createPlatformHelp(String platform) {
   Open a Terminal and change to the dglux_server directory in the extracted ZIP location.<br/>
   Run the following commands:<br/>
   <code>
-  chmod +x bin/*.sh</br>
+  chmod 777 bin/*.sh</br>
   ./bin/daemon.sh start
   </code>
   </p>
@@ -53,6 +55,8 @@ String createPlatformHelp(String platform) {
 class GetDsaPackagerElement extends PolymerElement {
   GetDsaPackagerElement.created() : super.created();
 
+  String selectedDistributionVersion = "latest";
+
   @observable
   Map<String, String> platforms = toObservable({
     "x86 Windows": "windows-ia32",
@@ -73,6 +77,9 @@ class GetDsaPackagerElement extends PolymerElement {
   @observable
   List<Distribution> dists = toObservable([]);
 
+  @observable
+  List<String> distv = toObservable([]);
+
   @override
   attached() {
     super.attached();
@@ -83,11 +90,34 @@ class GetDsaPackagerElement extends PolymerElement {
     pe.on["core-select"].listen((e) {
       onPlatformSelected();
     });
+
+    var dt = $["dist-type"] as CoreMenu;
+    dt.on["core-select"].listen((e) {
+      onDistSelected();
+    });
+
+    $["sdb-dd"].on["core-select"].listen((e) {
+      $["sdb-dd"].close();
+      selectedDistributionVersion = ($["sdb-dm"].selectedItem).text;
+    });
+
+    $["sdb-ib"].onClick.listen((e) {
+      $["sdb-dd"].open();
+    });
   }
 
   @override
   detached() {
     toggleHelpButton(false);
+  }
+
+  onDistSelected() {
+    new Future(() async {
+      String distId = (($["dist-type"] as CoreMenu).selectedItem as PaperItem).attributes["value"];
+      List<String> versions = await getDistributionVersions(distId);
+      distv.clear();
+      distv.addAll(versions);
+    });
   }
 
   onPlatformSelected() {
@@ -123,7 +153,7 @@ class GetDsaPackagerElement extends PolymerElement {
 
     print("Fetching Distribution...");
     status.text = "Fetching Distribution";
-    var distArchive = await dist.download();
+    var distArchive = await dist.download(selectedDistributionVersion);
     print("Distribution Fetched.");
     print("Fetching Dart SDK...");
     status.text = "Fetching Dart SDK";
@@ -173,6 +203,14 @@ class GetDsaPackagerElement extends PolymerElement {
     print("Complete!");
     status.text = "";
     spinner.active = false;
+  }
+
+  Future<List<String>> getDistributionVersions(String name) async {
+    var content = await HttpRequest.getString("https://api.github.com/repos/IOT-DSA/dists/contents/${name}");
+    var data = JSON.decode(content);
+    var x = data.map((x) => x["name"]).toList();
+    x.sort();
+    return x.reversed.toList();
   }
 }
 

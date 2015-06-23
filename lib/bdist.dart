@@ -30,10 +30,10 @@ class Distribution {
     );
   }
 
-  String createZipUrl() => "${BASE_DIST_URL}/${id}/${latest}/${file}";
+  String createZipUrl(String v) => "${BASE_DIST_URL}/${id}/${v == 'latest' ? latest : v}/${file}";
 
-  Future<Archive> download() async {
-    var bytes = await readUrlBytes(createZipUrl());
+  Future<Archive> download(String v) async {
+    var bytes = await readUrlBytes(createZipUrl(v));
     await null;
     return await readArchive(bytes, decompress: true);
   }
