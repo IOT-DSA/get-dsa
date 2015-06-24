@@ -29,14 +29,7 @@ Future<Archive> readArchive(List<int> bytes, {bool decompress: false}) async {
 
 Future<List<int>> compressZip(Archive archive) async {
   for (var file in archive.files) {
-    if (file.name.endsWith(".zip")
-      || file.name.endsWith(".png")
-      || file.name.endsWith(".jpg")
-      || file.name.endsWith("BUILD_NUMBER")
-      || file.name.endsWith(".jpeg")
-      || file.name.endsWith(".gif")) {
-      file.compress = false;
-    }
+    file.compress = false;
   }
 
   return await (new CustomZipEncoder().encode(archive, level: Deflate.NO_COMPRESSION));
