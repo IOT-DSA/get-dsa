@@ -49,7 +49,8 @@ String createPlatformHelp(String platform) {
   }
 
   return """
-  <p>Extract the ZIP file provided by the Get DSA Packager.<p>
+  <h3 style="text-align: center;">Installation Instructions</h3>
+  Extract the ZIP file provided by the Get DSA Packager.<br/>
   ${howToStart}
   """;
 }
@@ -111,7 +112,7 @@ class GetDsaPackagerElement extends PolymerElement {
 
   @override
   detached() {
-    toggleHelpButton(false);
+    super.detached();
   }
 
   onDistSelected() {
@@ -129,8 +130,7 @@ class GetDsaPackagerElement extends PolymerElement {
 
       print("Selected Platform: ${platformName}");
 
-      setHelpContent(createPlatformHelp(platformName));
-      toggleHelpButton(true);
+      $["help"].setInnerHtml(createPlatformHelp(platformName), validator: new NullTreeValidator());
     });
   }
 
