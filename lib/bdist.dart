@@ -17,8 +17,9 @@ class Distribution {
   final String latest;
   final String file;
   final List<String> wrappers;
+  final String directoryName;
 
-  Distribution(this.id, this.name, this.latest, this.file, this.wrappers);
+  Distribution(this.id, this.name, this.latest, this.file, this.wrappers, this.directoryName);
 
   factory Distribution.fromJSON(String id, input) {
     return new Distribution(
@@ -26,7 +27,8 @@ class Distribution {
         input["displayName"],
         input["latest"],
         input["file"],
-        input.containsKey("wrappers") ? input["wrappers"] : []
+        input.containsKey("wrappers") ? input["wrappers"] : [],
+        input.containsKey("directoryName") ? input["directoryName"] : id
     );
   }
 
