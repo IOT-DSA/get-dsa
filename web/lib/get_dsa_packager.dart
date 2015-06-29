@@ -18,7 +18,7 @@ import 'get_dsa_header.dart';
 String createPlatformHelp(String platform) {
   String howToStart = """
   <p>
-  Open a Terminal and change to the dglux_server directory in the extracted ZIP location.<br/>
+  Open a Terminal and change to the dglux-server directory in the extracted ZIP location.<br/>
   Run the following commands:<br/>
   <code>
   chmod 777 bin/*.sh<br/>
@@ -34,7 +34,7 @@ String createPlatformHelp(String platform) {
   if (platform.contains("Windows")) {
     howToStart = """
     <p>
-    Navigate to the dglux_server folder in the extracted ZIP location.<br/>
+    Navigate to the dglux-server folder in the extracted ZIP location.<br/>
     Open a new Command Prompt here.<br/>
     Run the following command:<br/>
     <code>
