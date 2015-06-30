@@ -12,7 +12,6 @@ import 'package:paper_elements/paper_spinner.dart';
 import 'package:paper_elements/paper_item.dart';
 import 'package:get_dsa/packager.dart';
 import 'package:get_dsa/utils.dart';
-import 'package:paper_elements/paper_checkbox.dart';
 import 'get_dsa_header.dart';
 
 String createPlatformHelp(String platform) {
@@ -55,6 +54,13 @@ String createPlatformHelp(String platform) {
   """;
 }
 
+class Filter {
+  final String field;
+  final String value;
+
+  Filter(this.field, this.value);
+}
+
 @CustomTag('get-dsa-packager')
 class GetDsaPackagerElement extends PolymerElement {
   GetDsaPackagerElement.created() : super.created();
@@ -62,7 +68,7 @@ class GetDsaPackagerElement extends PolymerElement {
   String selectedDistributionVersion = "latest";
 
   @observable
-  Map<String, String> platforms = toObservable({
+  ObservableMap<String, String> platforms = toObservable({
     "x86 Windows": "windows-ia32",
     "x64 Windows": "windows-x64",
     "x86 Linux": "linux-ia32",
@@ -75,20 +81,100 @@ class GetDsaPackagerElement extends PolymerElement {
     "MIPS Creator CI20": "ci20"
   });
 
-  @observable
-  List<DSLinkModel> links = toObservable([]);
+  void addFilter(Filter filter) {
+    filters.add(filter);
+    refilter();
+  }
+
+  void removeFilter(String n, String v) {
+    filters.removeWhere((x) => x.field == n && x.value == v);
+    refilter();
+  }
+
+  void refilter() {
+    if (filters.isEmpty) {
+      links.forEach((x) => x.show = true);
+      return;
+    }
+
+    links.forEach((x) => x.show = false);
+    for (var f in filters) {
+      for (var l in links) {
+        l.show = l.show || l.json[f.field] == f.value;
+      }
+    }
+
+    links.forEach((x) {
+      if (!x.show && x.selected) {
+        x.selected = false;
+      }
+    });
+  }
 
   @observable
-  List<Distribution> dists = toObservable([]);
+  ObservableList<DSLinkModel> links = toObservable([]);
 
   @observable
-  List<String> distv = toObservable([]);
+  ObservableList<Distribution> dists = toObservable([]);
+
+  @observable
+  ObservableList<String> distv = toObservable([]);
+
+  @observable
+  ObservableList<DSLinkLanguage> languages = toObservable([]);
+
+  @observable
+  ObservableList<DSLinkCategory> categories = toObservable([]);
+
+  List<Filter> filters = [];
 
   @override
   attached() {
     super.attached();
     loadDistributions().then((d) => dists.addAll(d));
-    loadLinks().then((l) => links.addAll(l.map((x) => new DSLinkModel(x))));
+    loadLinks().then((l) {
+      links.addAll(l.map((x) => new DSLinkModel(x)));
+      links.forEach((x) {
+        var language = x.language;
+        if (!languages.any((l) => l.name == language)) {
+          var lang = new DSLinkLanguage(language);
+          languages.add(lang);
+          lang.changes.listen((e) {
+            for (PropertyChangeRecord change in e) {
+              if (change.name == #filtered) {
+                var val = change.newValue;
+
+                if (val) {
+                  addFilter(new Filter("type", lang.name));
+                } else {
+                  removeFilter("type", lang.name);
+                }
+              }
+            }
+          });
+        }
+
+        var category = x.category;
+
+        if (!categories.any((l) => l.name == category)) {
+          var cat = new DSLinkCategory(category);
+          categories.add(cat);
+          cat.changes.listen((e) {
+            for (PropertyChangeRecord change in e) {
+              if (change.name == #filtered) {
+                var val = change.newValue;
+
+                if (val) {
+                  addFilter(new Filter("category", cat.name));
+                } else {
+                  removeFilter("category", cat.name);
+                }
+              }
+            }
+          });
+        }
+      });
+    });
 
     var pe = $["platform"] as CoreMenu;
     pe.on["core-select"].listen((e) {
@@ -108,6 +194,18 @@ class GetDsaPackagerElement extends PolymerElement {
     $["sdb-ib"].onClick.listen((e) {
       $["sdb-dd"].open();
     });
+
+    var ld = $["links-dialog"];
+    ld.$["scroller"].style.width = "1024px";
+    ld.on["core-overlay-close-completed"].listen((e) {
+      var count = links.where((x) => x.selected).length;
+      var verb = count == 1 ? "link" : "links";
+      var msg = "${count} ${verb} selected.";
+      $["links-count"].text = msg;
+    });
+
+    CssStyleDeclaration decl = ld.$["scroller"].style;
+    decl.overflowY = "scroll";
   }
 
   @override
@@ -134,18 +232,18 @@ class GetDsaPackagerElement extends PolymerElement {
     });
   }
 
+  openLinksDialog() {
+    $["links-dialog"].open();
+  }
+
   selectAllLinks() {
-    shadowRoot.querySelectorAll(".link-checkbox").forEach((PaperCheckbox box) {
-      box.checked = true;
-    });
+    links.forEach((x) => x.selected = x.show);
   }
 
   createDistPackage() async {
     String platformName = (($["platform"] as CoreMenu).selectedItem as PaperItem).attributes["value"];
     String distId = (($["dist-type"] as CoreMenu).selectedItem as PaperItem).attributes["value"];
-    List<DSLinkModel> ourLinks = shadowRoot.querySelectorAll(".link-checkbox").where((PaperCheckbox box) {
-      return box.checked;
-    }).map((PaperCheckbox box) => links.firstWhere((l) => l.displayName == box.getAttribute("value"))).toList();
+    List<DSLinkModel> ourLinks = links.where((x) => x.selected).toList();
     String platform = platforms[platformName];
     Distribution dist = dists.firstWhere((x) => x.id == distId);
 
@@ -217,15 +315,45 @@ class GetDsaPackagerElement extends PolymerElement {
   }
 }
 
-class DSLinkModel {
+class DSLinkLanguage extends Observable {
+  final String name;
+
+  @observable
+  bool filtered = false;
+
+  DSLinkLanguage(this.name);
+}
+
+class DSLinkCategory extends Observable {
+  final String name;
+
+  @observable
+  bool filtered = false;
+
+  DSLinkCategory(this.name);
+}
+
+class DSLinkModel extends Observable {
   final Map<String, dynamic> json;
 
-  DSLinkModel(this.json);
+  DSLinkModel(this.json) {
+    if (!json.containsKey("category")) {
+      json["category"] = "Misc.";
+    }
+  }
+
+  @observable
+  bool selected = false;
+
+  @observable
+  bool show = true;
 
   String get displayName => json["displayName"];
   String get type => json["type"];
   String get zip => json["zip"];
   String get description => json["description"];
+  String get category => json["category"];
+  String get language => json["type"];
 
   dynamic operator [](String name) {
     return json[name];

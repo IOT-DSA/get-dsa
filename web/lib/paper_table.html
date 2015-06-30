@@ -1,0 +1,110 @@
+<link rel='import' href='packages/paper_elements/paper_shadow.html'>
+
+<polymer-element name='paper-table' attributes='columns shadow'>
+  <template>
+    <style>
+      :host {
+        display: table;
+      }
+    </style>
+    <paper-shadow z='{{shadow}}'>
+      <content select='paper-table-header'></content>
+      <paper-table-header>
+        <paper-table-row>
+          <template repeat='{{column in columns}}'>
+            <paper-table-cell>{{column}}</paper-table-cell>
+          </template>
+        </paper-table-row>
+      </paper-table-header>
+      <content select='paper-table-body'></content>
+    </paper-shadow>
+  </template>
+  <script type="application/dart" src="paper_table.dart"></script>
+</polymer-element>
+
+<polymer-element name='paper-table-header' noscript>
+  <template>
+    <style>
+      :host {
+        display: table-header-group;
+      }
+    </style>
+    <content select='paper-table-row'></content>
+  </template>
+</polymer-element>
+
+<polymer-element name='paper-table-body' noscript>
+  <template>
+    <style>
+      :host {
+        display: table-row-group;
+      }
+
+      content[select='paper-table-row']::content paper-table-row {
+        transition: background-color 0.3s ease;
+      }
+
+      :host-context(.hover) content[select='paper-table-row']::content paper-table-row:hover {
+        background-color: #b3e5fc;
+      }
+    </style>
+    <content select='paper-table-row'></content>
+  </template>
+</polymer-element>
+
+<polymer-element name='paper-table-footer' noscript>
+  <template>
+    <style>
+      :host {
+        display: table-footer-group;
+      }
+    </style>
+    <content select='paper-table-row'></content>
+  </template>
+</polymer-element>
+
+<polymer-element name='paper-table-row' noscript>
+  <template>
+    <style>
+      :host {
+        display: table-row;
+      }
+    </style>
+    <content select='paper-table-cell'></content>
+  </template>
+</polymer-element>
+
+<polymer-element name='paper-table-cell' attributes='center shrink' noscript>
+  <template>
+    <style>
+      :host {
+        display: table-cell;
+        padding: 0.8em;
+      }
+
+      :host-context(paper-table-cell[shrink]) {
+        width: 1%;
+      }
+
+      :host-context(paper-table-cell[center]) {
+        text-align: center;
+      }
+
+      :host-context(paper-table-header) {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        padding-bottom: 1.5em;
+        padding-top: 1.5em;
+      }
+
+      :host-context(.visible-row-hover) {
+        transition: opacity 0.3s ease;
+        opacity: 0;
+      }
+
+      :host-context(paper-table-row:hover) {
+        opacity: 100;
+      }
+    </style>
+    <content></content>
+  </template>
+</polymer-element>
