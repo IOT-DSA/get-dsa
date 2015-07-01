@@ -119,16 +119,16 @@
             <h4>Languages</h4>
             <template repeat="{{language in languages}}">
               <core-label style="margin-bottom: 10px;" horizontal layout>
+                <paper-checkbox style="margin-right: 10px;" checked="{{language.filtered}}"></paper-checkbox>
                 <div>{{language.name}}</div>
-                <paper-checkbox style="margin-left: 10px;" checked="{{language.filtered}}"></paper-checkbox>
               </core-label>
             </template>
 
             <h4>Categories</h4>
             <template repeat="{{category in categories}}">
               <core-label style="margin-bottom: 10px;" horizontal layout>
+                <paper-checkbox style="margin-right: 10px;" checked="{{category.filtered}}"></paper-checkbox>
                 <div>{{category.name}}</div>
-                <paper-checkbox style="margin-left: 10px;" checked="{{category.filtered}}"></paper-checkbox>
               </core-label>
             </template>
           </div>
