@@ -283,6 +283,7 @@ class GetDsaPackagerElement extends PolymerElement {
     var rp = "unknown";
 
     if (platform.startsWith("linux-")
+      || platform.contains("Linux")
       || platform == "dreamplug"
       || platform == "beaglebone"
       || platform == "arm"
