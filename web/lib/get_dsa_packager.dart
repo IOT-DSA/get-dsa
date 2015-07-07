@@ -267,7 +267,7 @@ class GetDsaPackagerElement extends PolymerElement {
   }
 
   selectAllLinks() {
-    links.forEach((x) => x.selected = x.show);
+    links.forEach((x) => x.selected = x.show && x.supported);
   }
 
   createDistPackage() async {
