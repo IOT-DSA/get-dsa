@@ -229,8 +229,37 @@ class GetDsaPackagerElement extends PolymerElement {
 
       print("Selected Platform: ${platformName}");
 
+      var type = getPlatformType(platformName);
+
+      for (var x in links) {
+        if (x.requires.isEmpty) {
+          x.supported = true;
+          continue;
+        }
+
+        x.supported = x.requires.contains(type);
+      }
+
       $["help"].setInnerHtml(createPlatformHelp(platformName), validator: new NullTreeValidator());
     });
+  }
+
+  String getPlatformType(String name) {
+    name = name.toLowerCase();
+
+    if (name.contains("linux")) {
+      return "linux";
+    }
+
+    if (name.contains("windows")) {
+      return "windows";
+    }
+
+    if (name.contains("mac")) {
+      return "mac";
+    }
+
+    return "linux";
   }
 
   openLinksDialog() {
@@ -350,12 +379,16 @@ class DSLinkModel extends Observable {
   @observable
   bool show = true;
 
+  @observable
+  bool supported = true;
+
   String get displayName => json["displayName"];
   String get type => json["type"];
   String get zip => json["zip"];
   String get description => json["description"];
   String get category => json["category"];
   String get language => json["type"];
+  List<String> get requires => json.containsKey("requires") ? json["requires"] : [];
 
   dynamic operator [](String name) {
     return json[name];
