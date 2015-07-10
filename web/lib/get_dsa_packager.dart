@@ -79,7 +79,8 @@ class GetDsaPackagerElement extends PolymerElement {
     "ARM Linux": "arm",
     "Dreamplug": "dreamplug",
     "Beaglebone": "beaglebone",
-    "MIPS Creator CI20": "ci20"
+    "MIPS Creator CI20": "ci20",
+    "ARM am335x": "am335x"
   });
 
   void addFilter(Filter filter) {
@@ -316,7 +317,8 @@ class GetDsaPackagerElement extends PolymerElement {
       || platform == "dreamplug"
       || platform == "beaglebone"
       || platform == "arm"
-      || platform == "ci20") {
+      || platform == "ci20"
+      || platform == "am335x") {
       rp = "linux";
     } else if (platform.startsWith("windows-")) {
       rp = "windows";
