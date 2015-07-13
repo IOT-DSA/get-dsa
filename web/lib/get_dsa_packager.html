@@ -107,13 +107,14 @@
         -moz-user-select: text;
         -ms-user-select: text;
         -webkit-user-select: text;
+        width: 60%;
       }
     </style>
 
     <paper-dialog heading="Links" backdrop="true" transition="core-transition-center" autofocus id="links-dialog">
       <div horizontal justified layout flex>
         <div flex vertical layout start-justified>
-          <paper-button raised on-tap="{{selectAllLinks}}">Select All</paper-button>
+          <paper-button raised on-tap="{{selectAllLinks}}" style="width: 256px;">Select All</paper-button>
           <h3>Filters</h3>
           <div>
             <h4>Languages</h4>
@@ -163,7 +164,7 @@
       </div>
     </paper-dialog>
 
-    <div horizontal layout center-justified>
+    <div id="nm" horizontal layout center-justified>
       <div class="configs" vertical layout center-justified>
         <core-label horizontal layout>
           <div vertical layout>

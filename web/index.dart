@@ -11,6 +11,8 @@ initialize() {
   Polymer.onReady.then((_) {
     if (querySelector("get-dsa-app") != null) {
       (querySelector("get-dsa-app") as GetDsaAppElement).windowResize(window.innerWidth);
+    } else {
+      (querySelector("get-dsa-packager") as PolymerElement).$["nm"].attributes.remove("center-justified");
     }
   });
 }
