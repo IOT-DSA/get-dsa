@@ -9,4 +9,6 @@ dependencies:
     git: https://github.com/IOT-DSA/sdk-dslink-dart.git
 transformers:
 - polymer:
-    entry_points: web/index.html
+    entry_points:
+    - web/index.html
+    - web/packager.html

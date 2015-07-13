@@ -9,6 +9,8 @@ main() async {
 @initMethod
 initialize() {
   Polymer.onReady.then((_) {
-    (querySelector("get-dsa-app") as GetDsaAppElement).windowResize(window.innerWidth);
+    if (querySelector("get-dsa-app") != null) {
+      (querySelector("get-dsa-app") as GetDsaAppElement).windowResize(window.innerWidth);
+    }
   });
 }
