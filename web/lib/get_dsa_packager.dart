@@ -69,6 +69,9 @@ class GetDsaPackagerElement extends PolymerElement {
   String selectedDistributionVersion = "latest";
 
   @observable
+  bool supported = true;
+
+  @observable
   ObservableMap<String, String> platforms = toObservable({
     "x86 Windows": "windows-ia32",
     "x64 Windows": "windows-x64",
@@ -134,6 +137,11 @@ class GetDsaPackagerElement extends PolymerElement {
   @override
   attached() {
     super.attached();
+
+    if (!(window.navigator.userAgent.contains("Chrome") || window.navigator.userAgent.contains("Chromium"))) {
+      supported = false;
+    }
+
     loadDistributions().then((d) => dists.addAll(d));
     loadLinks().then((l) {
       links.addAll(l.map((x) => new DSLinkModel(x)));

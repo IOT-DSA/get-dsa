@@ -111,6 +111,12 @@
       }
     </style>
 
+    <template if="{{!supported}}">
+      <h2 horizontal center-justified layout center text-center>
+        We suggest using Google Chrome on desktop to build your DSA Package.
+      </h2>
+    </template>
+
     <paper-dialog heading="Links" backdrop="true" transition="core-transition-center" autofocus id="links-dialog">
       <div horizontal justified layout flex>
         <div flex vertical layout start-justified>
