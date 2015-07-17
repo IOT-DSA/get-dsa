@@ -140,6 +140,7 @@ class GetDsaPackagerElement extends PolymerElement {
 
     if (!(window.navigator.userAgent.contains("Chrome") || window.navigator.userAgent.contains("Chromium"))) {
       supported = false;
+      return;
     }
 
     loadDistributions().then((d) => dists.addAll(d));
