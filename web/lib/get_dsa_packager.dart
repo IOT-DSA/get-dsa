@@ -336,7 +336,18 @@ class GetDsaPackagerElement extends PolymerElement {
       rp = "mac";
     }
 
-    var package = buildPackage(dist.directoryName, distArchive, dartSdkArchive, pkgs, platform: rp, wrappers: dist.wrappers);
+    var package = buildPackage({
+      "dist": dist.id,
+      "platform": platform,
+      "platformType": rp,
+      "links": ourLinks.map((DSLinkModel x) {
+        return {
+          "name": x.name,
+          "language": x.language,
+          "category": x.category
+        };
+      }).toList()
+    }, dist.directoryName, distArchive, dartSdkArchive, pkgs, platform: rp, wrappers: dist.wrappers);
     print("Built Package.");
     await new Future.value();
     var blob = new Blob([await compressZip(package)], "application/zip");
@@ -400,6 +411,7 @@ class DSLinkModel extends Observable {
   String get description => json["description"];
   String get category => json["category"];
   String get language => json["type"];
+  String get name => json["name"];
   List<String> get requires => json.containsKey("requires") ? json["requires"] : [];
   bool get extra => json.containsKey("extra") ? json["extra"] : false;
 

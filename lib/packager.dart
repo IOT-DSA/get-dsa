@@ -31,7 +31,7 @@ class DSLinkPackage {
   }
 }
 
-Archive buildPackage(String distName, Archive baseDistribution, Archive dartSdk, List<DSLinkPackage> links, {List<String> wrappers, String platform: "unknown"}) {
+Archive buildPackage(Map cfg, String distName, Archive baseDistribution, Archive dartSdk, List<DSLinkPackage> links, {List<String> wrappers, String platform: "unknown"}) {
   var pkg = new Archive();
 
   pkg.files.addAll(baseDistribution.files.map((x) {
@@ -44,6 +44,7 @@ Archive buildPackage(String distName, Archive baseDistribution, Archive dartSdk,
   }
 
   pkg.files.addAll(dartSdk);
+
   for (var link in links) {
     var archive = link.archive;
     if (archive.files.every((f) => f.name.split("/").length >= 2)) {
@@ -58,6 +59,11 @@ Archive buildPackage(String distName, Archive baseDistribution, Archive dartSdk,
 
     pkg.files.addAll(archive.files);
   }
+
+  var json = UTF8.encode(new JsonEncoder.withIndent("  ").convert(cfg) + "\n");
+  ArchiveFile installConfig = new ArchiveFile("${distName}/install.json", json.length, json);
+
+  pkg.files.add(installConfig);
 
   if (wrappers != null) {
     for (var wrapper in wrappers) {
