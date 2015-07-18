@@ -278,7 +278,7 @@ class GetDsaPackagerElement extends PolymerElement {
   }
 
   selectAllLinks() {
-    links.forEach((x) => x.selected = x.show && x.supported);
+    links.forEach((x) => x.selected = x.show && x.supported && !x.extra);
   }
 
   createDistPackage() async {
@@ -401,6 +401,7 @@ class DSLinkModel extends Observable {
   String get category => json["category"];
   String get language => json["type"];
   List<String> get requires => json.containsKey("requires") ? json["requires"] : [];
+  bool get extra => json.containsKey("extra") ? json["extra"] : false;
 
   dynamic operator [](String name) {
     return json[name];
