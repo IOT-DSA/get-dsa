@@ -248,7 +248,7 @@ class GetDsaPackagerElement extends PolymerElement {
           continue;
         }
 
-        x.supported = x.requires.contains(type);
+        x.supported = x.requires.contains(type) || x.requires.contains(platformName);
       }
 
       $["help"].setInnerHtml(createPlatformHelp(platformName), validator: new NullTreeValidator());
