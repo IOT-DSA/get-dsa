@@ -74,7 +74,7 @@ Future<Archive> fetchDartSdk(String platform) async {
   if (!platform.startsWith("linux-") && !platform.startsWith("windows-") && !platform.startsWith("macos-")) {
     url = "https://iot-dsa.github.io/dart-sdk-builds/${platform}.zip";
   } else {
-    url = "https://commondatastorage.googleapis.com/dart-archive/channels/stable/release/1.12.2/sdk/dartsdk-${platform}-release.zip";
+    url = "https://commondatastorage.googleapis.com/dart-archive/channels/stable/release/1.13.0/sdk/dartsdk-${platform}-release.zip";
   }
 
   var bytes = await readUrlBytes(url);
