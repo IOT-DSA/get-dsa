@@ -146,6 +146,7 @@ class GetDsaPackagerElement extends PolymerElement {
     loadDistributions().then((d) => dists.addAll(d));
     loadLinks().then((l) {
       links.addAll(l.map((x) => new DSLinkModel(x)));
+      links.sort((a, b) => a.displayName.compareTo(b.displayName));
       links.forEach((x) {
         var language = x.language;
         if (!languages.any((l) => l.name == language)) {

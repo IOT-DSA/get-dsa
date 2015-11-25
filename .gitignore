@@ -5,3 +5,4 @@ build/
 .idea
 package.zip
 pkg/
+.packages
