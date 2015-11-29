@@ -80,7 +80,7 @@ class GetDsaPackagerElement extends PolymerElement {
     "x64 Linux (Static)": "x64_Linux_StaticGLibC",
     "x86 Mac OS": "macos-ia32",
     "x64 Mac OS": "macos-x64",
-    "ARM Linux": "linux-arm",
+    "ARM Linux": "arm",
     "Dreamplug": "dreamplug",
     "Beaglebone": "beaglebone",
     "MIPS Creator CI20": "ci20",
