@@ -84,7 +84,8 @@ class GetDsaPackagerElement extends PolymerElement {
     "Dreamplug": "dreamplug",
     "Beaglebone": "beaglebone",
     "MIPS Creator CI20": "ci20",
-    "ARM am335x": "am335x"
+    "ARM am335x": "am335x",
+    "ARM Android": "android"
   });
 
   void addFilter(Filter filter) {
