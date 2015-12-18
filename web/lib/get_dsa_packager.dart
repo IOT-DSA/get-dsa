@@ -13,6 +13,23 @@ import 'package:paper_elements/paper_item.dart';
 import 'package:get_dsa/packager.dart';
 import 'package:get_dsa/utils.dart';
 import 'get_dsa_header.dart';
+import 'package:archive/archive.dart';
+
+final String ANDROID_INSTALL_SCRIPT = """\
+#!/usr/bin/env bash
+set -e
+adb push . /sdcard/dsa
+adb shell cp /sdcard/dsa/dart-sdk/bin/dart /data/local/tmp/dart
+adb shell chmod 757 /data/local/tmp/dart
+""";
+
+final String ANDROID_RUN_SCRIPT = """\
+#!/usr/bin/env bash
+set -e
+adb shell cp /sdcard/dsa/dart-sdk/bin/dart /data/local/tmp/dart
+adb shell chmod 757 /data/local/tmp/dart
+adb shell /data/local/tmp/dart /sdcard/dsa/dglux-server/bin/dglux_server.dart
+""";
 
 String createPlatformHelp(String platform) {
   String howToStart = """
@@ -44,6 +61,25 @@ String createPlatformHelp(String platform) {
     </p>
 
     <p>Your DSA instance is now running!</p>
+    """;
+  }
+
+  if (platform.contains("Android")) {
+    howToStart = """
+    <p>
+    Ensure you have ADB installed and your device is plugged in.<br/>
+    Open a new command line.<br/>
+    Navigate to the root folder of the extracted ZIP location.<br/>
+    Run the following command:<br/>
+    <code>
+    bash install.sh<br/>
+    bash run.sh
+    </code><br/>
+  You should be able to access DGLux5 at: http://device-ip:8080<br/>
+  Default credentials are: dgSuper / dglux1234<br/>
+    </p>
+
+    <p>Your DSA instance is now running on Android!</p>
     """;
   }
 
@@ -336,6 +372,8 @@ class GetDsaPackagerElement extends PolymerElement {
       rp = "windows";
     } else if (platform.startsWith("macos-")) {
       rp = "mac";
+    } else if (platform.startsWith("android")) {
+      rp = "android";
     }
 
     var package = buildPackage({
@@ -350,6 +388,16 @@ class GetDsaPackagerElement extends PolymerElement {
         };
       }).toList()
     }, dist.directoryName, distArchive, dartSdkArchive, pkgs, platform: rp, wrappers: dist.wrappers);
+
+    if (rp == "android") {
+      var encodedRunScript = const Utf8Encoder().convert(ANDROID_RUN_SCRIPT);
+      var encodedInstallScript = const Utf8Encoder().convert(ANDROID_INSTALL_SCRIPT);
+      var runScriptFile = new ArchiveFile("run.sh", encodedRunScript.length, encodedRunScript);
+      var installScriptFile = new ArchiveFile("install.sh", encodedInstallScript.length, encodedInstallScript);
+      package.addFile(runScriptFile);
+      package.addFile(installScriptFile);
+    }
+
     print("Built Package.");
     await new Future.value();
     var blob = new Blob([await compressZip(package)], "application/zip");
