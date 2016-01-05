@@ -376,6 +376,13 @@ class GetDsaPackagerElement extends PolymerElement {
       rp = "android";
     }
 
+    var mls = selectedDistributionVersion;
+    if (mls is String) {
+      try {
+        mls = num.parse(mls);
+      } catch (e) {}
+    }
+
     var package = buildPackage({
       "dist": dist.id,
       "platform": platform,
@@ -384,9 +391,11 @@ class GetDsaPackagerElement extends PolymerElement {
         return {
           "name": x.name,
           "language": x.language,
-          "category": x.category
+          "category": x.category,
+          "revision": x.revision
         };
-      }).toList()
+      }).toList(),
+      "revision": mls
     }, dist.directoryName, distArchive, dartSdkArchive, pkgs, platform: rp, wrappers: dist.wrappers);
 
     if (rp == "android") {
@@ -461,6 +470,7 @@ class DSLinkModel extends Observable {
   String get description => json["description"];
   String get category => json["category"];
   String get language => json["type"];
+  String get revision => json["revision"];
   String get name => json["name"];
   List<String> get requires => json.containsKey("requires") ? json["requires"] : [];
   bool get extra => json.containsKey("extra") ? json["extra"] : false;
