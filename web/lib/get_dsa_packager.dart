@@ -336,9 +336,14 @@ class GetDsaPackagerElement extends PolymerElement {
     var distArchive = await dist.download(selectedDistributionVersion);
     print("Distribution Fetched.");
     print("Fetching Dart SDK...");
+
     status.text = "Fetching Dart SDK";
     var dartSdkArchive = await fetchDartSdk(platform);
     print("Dart SDK Fetched.");
+
+    status.text = "Fetching Python SDK";
+    var pythonSdkArchive = await fetchPythonSdk(platform);
+    print("Python SDK Fetched");
 
     var pkgs = <DSLinkPackage>[];
 
@@ -396,7 +401,7 @@ class GetDsaPackagerElement extends PolymerElement {
         };
       }).toList(),
       "revision": mls
-    }, dist.directoryName, distArchive, dartSdkArchive, pkgs, platform: rp, wrappers: dist.wrappers);
+    }, dist.directoryName, distArchive, dartSdkArchive, pythonSdkArchive, pkgs, platform: rp, wrappers: dist.wrappers);
 
     if (rp == "android") {
       var encodedRunScript = const Utf8Encoder().convert(ANDROID_RUN_SCRIPT);

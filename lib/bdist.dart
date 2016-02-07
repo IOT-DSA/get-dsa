@@ -84,6 +84,16 @@ Future<Archive> fetchDartSdk(String platform) async {
   return await readArchive(bytes);
 }
 
+Future<Archive> fetchPythonSdk(String platform) async {
+  String url = "http://files.directcode.io/python/${platform}.zip";
+
+  var bytes = await readUrlBytes(url);
+
+  await null;
+
+  return await readArchive(bytes);
+}
+
 Future<Archive> fetchArchive(String url) async {
   return await readArchive(await readUrlBytes(url));
 }

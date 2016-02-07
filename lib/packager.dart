@@ -31,7 +31,7 @@ class DSLinkPackage {
   }
 }
 
-Archive buildPackage(Map cfg, String distName, Archive baseDistribution, Archive dartSdk, List<DSLinkPackage> links, {List<String> wrappers, String platform: "unknown"}) {
+Archive buildPackage(Map cfg, String distName, Archive baseDistribution, Archive dartSdk, Archive pythonSdk, List<DSLinkPackage> links, {List<String> wrappers, String platform: "unknown"}) {
   var pkg = new Archive();
 
   pkg.files.addAll(baseDistribution.files.map((x) {
@@ -44,6 +44,12 @@ Archive buildPackage(Map cfg, String distName, Archive baseDistribution, Archive
   }
 
   pkg.files.addAll(dartSdk);
+
+  if (!pythonSdk.files.every((f) => f.name.startsWith("python-sdk/"))) {
+    pythonSdk.files.forEach((f) => f.name = "python-sdk/${f.name}");
+  }
+
+  pkg.files.addAll(pythonSdk);
 
   for (var link in links) {
     var archive = link.archive;
