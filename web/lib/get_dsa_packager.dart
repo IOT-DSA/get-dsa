@@ -315,6 +315,10 @@ class GetDsaPackagerElement extends PolymerElement {
     $["links-dialog"].open();
   }
 
+  closeLinksDialog() {
+    $["links-dialog"].close();
+  }
+
   selectAllLinks() {
     links.forEach((x) => x.selected = x.show && x.supported && !x.extra);
   }

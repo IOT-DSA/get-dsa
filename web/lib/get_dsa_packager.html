@@ -144,30 +144,34 @@
         </div>
 
         <div flex horizontal layout end-justified>
-          <paper-table id="link-table">
-            <paper-table-header>
-              <paper-table-row>
-                <paper-table-cell>Selected</paper-table-cell>
-                <paper-table-cell>Name</paper-table-cell>
-                <paper-table-cell>Category</paper-table-cell>
-                <paper-table-cell>Language</paper-table-cell>
-              </paper-table-row>
-            </paper-table-header>
-            <paper-table-body>
-              <template repeat="{{link in links}}">
-                <template if="{{link.show && link.supported}}">
-                  <paper-table-row>
-                    <paper-table-cell>
-                      <paper-checkbox checked="{{link.selected}}"></paper-checkbox>
-                    </paper-table-cell>
-                    <paper-table-cell>{{link.displayName}}</paper-table-cell>
-                    <paper-table-cell>{{link.category}}</paper-table-cell>
-                    <paper-table-cell>{{link.language}}</paper-table-cell>
-                  </paper-table-row>
+          <div flex vertical layout start-justified justified>
+            <paper-button raised on-tap="{{closeLinksDialog}}" style="margin-bottom: 20px;">Close</paper-button>
+
+            <paper-table id="link-table">
+              <paper-table-header>
+                <paper-table-row>
+                  <paper-table-cell>Selected</paper-table-cell>
+                  <paper-table-cell>Name</paper-table-cell>
+                  <paper-table-cell>Category</paper-table-cell>
+                  <paper-table-cell>Language</paper-table-cell>
+                </paper-table-row>
+              </paper-table-header>
+              <paper-table-body>
+                <template repeat="{{link in links}}">
+                  <template if="{{link.show && link.supported}}">
+                    <paper-table-row>
+                      <paper-table-cell>
+                        <paper-checkbox checked="{{link.selected}}"></paper-checkbox>
+                      </paper-table-cell>
+                      <paper-table-cell>{{link.displayName}}</paper-table-cell>
+                      <paper-table-cell>{{link.category}}</paper-table-cell>
+                      <paper-table-cell>{{link.language}}</paper-table-cell>
+                    </paper-table-row>
+                  </template>
                 </template>
-              </template>
-            </paper-table-body>
-          </paper-table>
+              </paper-table-body>
+            </paper-table>
+          </div>
         </div>
       </div>
     </paper-dialog>
