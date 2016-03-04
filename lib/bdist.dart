@@ -6,10 +6,9 @@ import "dart:html";
 import "dart:typed_data";
 
 import "package:archive/archive.dart";
-import "utils.dart";
 
-const String BASE_LINKS_URL = "https://iot-dsa.github.io/links";
-const String BASE_DIST_URL = "https://iot-dsa.github.io/dists";
+import "constants.dart";
+import "utils.dart";
 
 class Distribution {
   final String id;
@@ -74,7 +73,9 @@ Future<Archive> fetchDartSdk(String platform) async {
   if (!platform.startsWith("linux-") && !platform.startsWith("windows-") && !platform.startsWith("macos-")) {
     url = "https://iot-dsa.github.io/dart-sdk-builds/${platform}.zip";
   } else {
-    url = "https://commondatastorage.googleapis.com/dart-archive/channels/stable/release/1.14.2/sdk/dartsdk-${platform}-release.zip";
+    url = "https://commondatastorage.googleapis.com/dart-archive"
+      "/channels/${DART_VM_CHANNEL}/release/"
+      "${DART_VM_VERSION}/sdk/dartsdk-${platform}-release.zip";
   }
 
   var bytes = await readUrlBytes(url);
