@@ -114,6 +114,7 @@ class GetDsaPackagerElement extends PolymerElement {
     "x86 Linux": "linux-ia32",
     "x64 Linux": "linux-x64",
     "x64 Linux (Static)": "x64_Linux_StaticGLibC",
+    "x64 Linux (Musl Static)": "x64-linux-musl.zip",
     "x86 Mac OS": "macos-ia32",
     "x64 Mac OS": "macos-x64",
     "ARMv7 Linux": "linux-arm",
