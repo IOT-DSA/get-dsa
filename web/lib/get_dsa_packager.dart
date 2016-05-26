@@ -109,13 +109,13 @@ class GetDsaPackagerElement extends PolymerElement {
 
   @observable
   ObservableMap<String, String> platforms = toObservable({
-    "x86 Windows": "windows-ia32",
+    "x32 Windows": "windows-ia32",
     "x64 Windows": "windows-x64",
-    "x86 Linux": "linux-ia32",
+    "x32 Linux": "linux-ia32",
     "x64 Linux": "linux-x64",
     "x64 Linux (Static)": "x64_Linux_StaticGLibC",
     "x64 Linux (Musl Static)": "x64-linux-musl",
-    "x86 Mac OS": "macos-ia32",
+    "x32 Mac OS": "macos-ia32",
     "x64 Mac OS": "macos-x64",
     "ARMv7 Linux": "linux-arm",
     "ARMv6 Linux": "armv6",
