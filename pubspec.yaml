@@ -3,8 +3,10 @@ publish_to: none
 dependencies:
   archive: "^1.0.19"
   polymer: "^0.16.4+1"
-  core_elements: "^0.7.1+6"
-  paper_elements: "^0.7.1"
+  core_elements:
+    git: https://github.com/IOT-DSA/core-elements.git
+  paper_elements:
+    git: https://github.com/IOT-DSA/paper-elements.git
   dslink:
     git: https://github.com/IOT-DSA/sdk-dslink-dart.git
 transformers:
