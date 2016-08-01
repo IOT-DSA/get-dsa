@@ -15,21 +15,21 @@ import 'package:get_dsa/utils.dart';
 import 'get_dsa_header.dart';
 import 'package:archive/archive.dart';
 
-final String ANDROID_INSTALL_SCRIPT = """\
-#!/usr/bin/env bash
-set -e
-adb push . /sdcard/dsa
-adb shell cp /sdcard/dsa/dart-sdk/bin/dart /data/local/tmp/dart
-adb shell chmod 757 /data/local/tmp/dart
-""";
+final String ANDROID_INSTALL_SCRIPT = [
+  r"#!/usr/bin/env bash",
+  r"set -e",
+  r"adb push . /sdcard/dsa",
+  r"adb shell cp /sdcard/dsa/dart-sdk/bin/dart /data/local/tmp/dart",
+  r"adb shell chmod 757 /data/local/tmp/dart"
+].join("\n");
 
-final String ANDROID_RUN_SCRIPT = """\
-#!/usr/bin/env bash
-set -e
-adb shell cp /sdcard/dsa/dart-sdk/bin/dart /data/local/tmp/dart
-adb shell chmod 757 /data/local/tmp/dart
-adb shell /data/local/tmp/dart /sdcard/dsa/dglux-server/bin/dglux_server.dart
-""";
+final String ANDROID_RUN_SCRIPT = [
+  r"#!/usr/bin/env bash",
+  r"set -e",
+  r"adb shell cp /sdcard/dsa/dart-sdk/bin/dart /data/local/tmp/dart"
+  r"adb shell chmod 757 /data/local/tmp/dart",
+  r"adb shell /data/local/tmp/dart /sdcard/dsa/dglux-server/bin/dglux_server.dart"
+].join("\n");
 
 String createPlatformHelp(String platform) {
   String howToStart = """
