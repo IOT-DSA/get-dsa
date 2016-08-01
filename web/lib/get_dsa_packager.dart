@@ -383,10 +383,16 @@ class GetDsaPackagerElement extends PolymerElement {
     }
 
     var mls = selectedDistributionVersion;
+
+    if (mls == "latest") {
+      mls = dist.latest;
+    }
+
     if (mls is String) {
       try {
         mls = num.parse(mls);
-      } catch (e) {}
+      } catch (e) {
+      }
     }
 
     var package = buildPackage({

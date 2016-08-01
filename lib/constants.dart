@@ -1,14 +1,14 @@
 library get_dsa.constants;
 
-const String DART_VM_VERSION = "1.15.0";
+const String DART_VM_VERSION = "1.17.1";
 const String DART_VM_CHANNEL = "stable";
 const String BASE_LINKS_URL = "https://dsa.s3.amazonaws.com/links";
 const String BASE_DIST_URL = "https://dsa.s3.amazonaws.com/dists";
 
 final String SHELL_DART_WRAPPER = [
   r"#!/usr/bin/env bash",
-  r"$(dirname $0)/../../dart-sdk/bin/dart ${0%.sh}.dart ${@}"
-];
+  r"exec $(dirname $0)/../../dart-sdk/bin/dart ${0%.sh}.dart ${@}"
+].join("\n");
 
 final String BATCH_DART_WRAPPER = [
   r"@echo off",
