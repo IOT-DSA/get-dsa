@@ -435,7 +435,16 @@ class GetDsaPackagerElement extends PolymerElement {
     var content = await HttpRequest.getString("https://api.github.com/repos/IOT-DSA/dists/contents/${name}");
     var data = JSON.decode(content);
     var x = data.map((x) => x["name"]).toList();
-    x.sort();
+    x.sort((a, b) {
+      var x = int.parse(a, onError: (_) => null);
+      var y = int.parse(b, onError: (_) => null);
+
+      if (x == null || y == null) {
+        return a.toString().compareTo(b.toString());
+      }
+
+      return x.compareTo(y);
+    });
     return x.reversed.toList();
   }
 }
