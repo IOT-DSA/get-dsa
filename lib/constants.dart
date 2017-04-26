@@ -1,6 +1,6 @@
 library get_dsa.constants;
 
-const String DART_VM_VERSION = "1.17.1";
+const String DART_VM_VERSION = "1.22.1";
 const String DART_VM_CHANNEL = "stable";
 const String BASE_LINKS_URL = "https://dsa.s3.amazonaws.com/links";
 const String BASE_DIST_URL = "https://dsa.s3.amazonaws.com/dists";
