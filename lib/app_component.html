@@ -17,19 +17,31 @@
                 [selection]="selectedDist">
         </material-dropdown-select>
     </div>
+    <div>
+        <h4 class="configLabel">Version</h4>
+        <material-dropdown-select
+                [buttonText]="selectedDistVersionLabel"
+                [options]="distVersions"
+                [selection]="selectedDistVersion">
+        </material-dropdown-select>
+    </div>
 
     <material-button id="build-button"
-                     (click)="buildPackage()"
+                     (click)="buildPackageButton()"
                      [disabled]="buildDisabled"
                      [materialTooltip]="buildTooltip">
         Build Package
     </material-button>
 
     <div [hidden]="statusHidden">
-        <material-spinner></material-spinner>   Building package...
+        <material-spinner></material-spinner>
+        {{statusText}}
     </div>
 
+    <br>
+
+
     <div id="help">
-        Help is here
+        <span [innerHTML]="helpText"></span>
     </div>
 </div>
