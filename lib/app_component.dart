@@ -95,7 +95,6 @@ String createPlatformHelp(String platform) {
 )
 class AppComponent {
   String helpText = "You must select a platform for installation help.";
-  bool buildDisabled = true;
   String buildTooltip = "Platform and Distribution are required.";
   bool statusHidden = true;
   String statusText = "";
@@ -146,7 +145,7 @@ class AppComponent {
   String get selectedDistVersionLabel =>
       selectedDistVersion.selectedValues.length > 0
           ? selectedDistVersion.selectedValues.first.label
-          : "Version";
+          : "latest";
 
   List<DSLinkModel> links = [];
   List<DSLinkLanguage> languages = [];
@@ -219,17 +218,12 @@ class AppComponent {
   }
 
   buildPackageButton() async {
-    if (buildDisabled) {
-      buildDisabled = false;
-      return;
-    }
-
     statusHidden = false;
 
     String platform = selectedPlatform.selectedValues.first.code;
     Distribution dist = _backendDists.firstWhere((x) =>
     x.id == selectedDist.selectedValues.first.code);
-    String version = selectedDistVersion.selectedValues.first.code;
+    String version = selectedDistVersionLabel;
     List<DSLinkModel> ourLinks = links.where((x) => x.selected).toList();
 
     statusText = "Fetching distribution...";
@@ -270,7 +264,6 @@ class AppComponent {
       rp = "android";
     }
 
-    // TODO: Add version selection
     dynamic mls = version;
 
     if (mls == null) {
