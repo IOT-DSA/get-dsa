@@ -79,7 +79,7 @@ String createPlatformHelp(String platform) {
   }
 
   return """
-  <h3 style="text-align: center;">Installation Instructions</h3>
+  <h3>Installation Instructions</h3>
   Extract the ZIP file provided by the Get DSA Packager.<br/>
   ${howToStart}<br/>
   If you have a license for a previous installation that was generated before the 8th of July in 2015, please request a new license, and a new one will be generated for you.<br/>
@@ -88,7 +88,7 @@ String createPlatformHelp(String platform) {
 
 @Component(
   selector: 'my-app',
-  styleUrls: const ['app_component.css'],
+  styleUrls: const ['app_component.scss.css'],
   templateUrl: 'app_component.html',
   directives: const [materialDirectives],
   providers: const [materialProviders],
@@ -122,34 +122,42 @@ class AppComponent {
   SelectionOptions<Option> get platforms =>
       new SelectionOptions.fromList(_platforms);
 
-  String get selectedPlatformLabel =>
-      selectedPlatform.selectedValues.length > 0
-          ? selectedPlatform.selectedValues.first.label
-          : "Platform";
+  String get selectedPlatformLabel => selectedPlatform.selectedValues.length > 0
+      ? selectedPlatform.selectedValues.first.label
+      : "Platform";
 
   static List<Option> _dists = [];
   SelectionModel<Option> selectedDist = new SelectionModel.withList();
 
   SelectionOptions<Option> get dists => new SelectionOptions.fromList(_dists);
 
-  String get selectedDistLabel =>
-      selectedDist.selectedValues.length > 0
-          ? selectedDist.selectedValues.first.label
-          : "Distribution";
+  String get selectedDistLabel => selectedDist.selectedValues.length > 0
+      ? selectedDist.selectedValues.first.label
+      : "Distribution";
 
   static List<Option> _distVersions = [];
   SelectionModel<Option> selectedDistVersion = new SelectionModel.withList();
 
-  SelectionOptions<Option> get distVersions => new SelectionOptions.fromList(_distVersions);
+  SelectionOptions<Option> get distVersions =>
+      new SelectionOptions.fromList(_distVersions);
 
   String get selectedDistVersionLabel =>
       selectedDistVersion.selectedValues.length > 0
           ? selectedDistVersion.selectedValues.first.label
           : "latest";
 
-  List<DSLinkModel> links = [];
-  List<DSLinkLanguage> languages = [];
-  List<DSLinkCategory> categories = [];
+  static List<OptionGroup<Option>> _links = [];
+  SelectionModel<Option> selectedLinks = new SelectionModel.withList(allowMulti: true);
+
+  SelectionOptions<Option> get links =>
+      new SelectionOptions.withOptionGroups(_links);
+  // TODO: Fix search box
+  //LinkSelectionOptions get links => new LinkSelectionOptions.withOptionGroups(_links);
+
+  String get selectedLinksLabel => "${selectedLinks.selectedValues.length} links selected";
+
+  List<DSLinkModel> linkModels = [];
+  List<DSLinkCategory> linkCategories = [];
 
   AppComponent() {
     selectedDist.selectionChanges.listen((n) async {
@@ -171,48 +179,19 @@ class AppComponent {
       });
       _backendDists = dists;
     });
+
     loadLinks().then((l) {
-      links.addAll(l.map((x) => new DSLinkModel(x)));
-      links.sort((a, b) => a.displayName.compareTo(b.displayName));
-      links.forEach((x) {
-        var language = x.language;
-        if (!languages.any((l) => l.name == language)) {
-          var lang = new DSLinkLanguage(language);
-          languages.add(lang);
-          /*lang.changes.listen((e) {
-            for (PropertyChangeRecord change in e) {
-              if (change.name == #filtered) {
-                var val = change.newValue;
-
-                if (val) {
-                  addFilter(new Filter("type", lang.name));
-                } else {
-                  removeFilter("type", lang.name);
-                }
-              }
-            }
-          });*/
-        }
-
+      linkModels.addAll(l.map((x) => new DSLinkModel(x)));
+      linkModels.sort((a, b) => a.displayName.compareTo(b.displayName));
+      linkModels.forEach((x) {
         var category = x.category;
 
-        if (!categories.any((l) => l.name == category)) {
-          var cat = new DSLinkCategory(category);
-          categories.add(cat);
-          /*cat.changes.listen((e) {
-            for (PropertyChangeRecord change in e) {
-              if (change.name == #filtered) {
-                var val = change.newValue;
-
-                if (val) {
-                  addFilter(new Filter("category", cat.name));
-                } else {
-                  removeFilter("category", cat.name);
-                }
-              }
-            }
-          });*/
+        if (!_links.any((x) => x.uiDisplayName == category)) {
+          _links.add(new OptionGroup<Option>.withLabel([], category));
         }
+
+        var optionGroup = _links.firstWhere((x) => x.uiDisplayName == category);
+        optionGroup.add(new Option(x.name, x.displayName));
       });
     });
   }
@@ -221,10 +200,13 @@ class AppComponent {
     statusHidden = false;
 
     String platform = selectedPlatform.selectedValues.first.code;
-    Distribution dist = _backendDists.firstWhere((x) =>
-    x.id == selectedDist.selectedValues.first.code);
+    Distribution dist = _backendDists
+        .firstWhere((x) => x.id == selectedDist.selectedValues.first.code);
     String version = selectedDistVersionLabel;
-    List<DSLinkModel> ourLinks = links.where((x) => x.selected).toList();
+    List<DSLinkModel> ourLinks = [];
+    selectedLinks.selectedValues.forEach((opt) {
+      ourLinks.add(linkModels.where((x) => x.name == opt.code).first);
+    });
 
     statusText = "Fetching distribution...";
     var distArchive = await dist.download(version);
@@ -248,13 +230,13 @@ class AppComponent {
 
     var rp = "unknown";
 
-    if (platform.startsWith("linux-")
-        || platform.contains("Linux")
-        || platform == "dreamplug"
-        || platform == "beaglebone"
-        || platform == "arm"
-        || platform == "ci20"
-        || platform == "am335x") {
+    if (platform.startsWith("linux-") ||
+        platform.contains("Linux") ||
+        platform == "dreamplug" ||
+        platform == "beaglebone" ||
+        platform == "arm" ||
+        platform == "ci20" ||
+        platform == "am335x") {
       rp = "linux";
     } else if (platform.startsWith("windows-")) {
       rp = "windows";
@@ -271,8 +253,7 @@ class AppComponent {
     } else if (mls is String) {
       try {
         mls = num.parse(mls);
-      } catch(e) {
-      }
+      } catch (e) {}
     }
 
     var package = buildPackage({
@@ -288,13 +269,17 @@ class AppComponent {
         };
       }).toList(),
       "revision": mls
-    }, dist.directoryName, distArchive, dartSdkArchive, pkgs, platform: rp, wrappers: dist.wrappers);
+    }, dist.directoryName, distArchive, dartSdkArchive, pkgs,
+        platform: rp, wrappers: dist.wrappers);
 
     if (rp == "android") {
       var encodedRunScript = const Utf8Encoder().convert(ANDROID_RUN_SCRIPT);
-      var encodedInstallScript = const Utf8Encoder().convert(ANDROID_INSTALL_SCRIPT);
-      var runScriptFile = new ArchiveFile("run.sh", encodedRunScript.length, encodedRunScript);
-      var installScriptFile = new ArchiveFile("install.sh", encodedInstallScript.length, encodedInstallScript);
+      var encodedInstallScript =
+          const Utf8Encoder().convert(ANDROID_INSTALL_SCRIPT);
+      var runScriptFile =
+          new ArchiveFile("run.sh", encodedRunScript.length, encodedRunScript);
+      var installScriptFile = new ArchiveFile(
+          "install.sh", encodedInstallScript.length, encodedInstallScript);
       package.addFile(runScriptFile);
       package.addFile(installScriptFile);
     }
@@ -309,7 +294,8 @@ class AppComponent {
   }
 
   Future<List<String>> getDistributionVersions(String name) async {
-    var content = await HttpRequest.getString("https://api.github.com/repos/IOT-DSA/dists/contents/${name}");
+    var content = await HttpRequest.getString(
+        "https://api.github.com/repos/IOT-DSA/dists/contents/${name}");
     var data = JSON.decode(content);
     var x = data.map((x) => x["name"]).toList();
     x.sort((a, b) {
@@ -339,6 +325,22 @@ class Option implements HasUIDisplayName {
   String toString() => uiDisplayName;
 }
 
+class LinkSelectionOptions<T> extends StringSelectionOptions<T>
+    implements Selectable {
+  LinkSelectionOptions(List<T> options)
+      : super(options, toFilterableString: (T option) => option.toString());
+
+  LinkSelectionOptions.withOptionGroups(List<OptionGroup> optionGroups)
+      : super.withOptionGroups(optionGroups,
+      toFilterableString: (T option) => option.toString());
+
+  @override
+  SelectableOption getSelectable(item) =>
+      item is Option
+          ? SelectableOption.Disabled
+          : SelectableOption.Selectable;
+}
+
 class DSLinkLanguage {
   final String name;
 
@@ -365,20 +367,28 @@ class DSLinkModel {
   }
 
   bool selected = false;
-
   bool show = true;
-
   bool supported = true;
 
   String get displayName => json["displayName"];
+
   String get type => json["type"];
+
   String get zip => json["zip"];
+
   String get description => json["description"];
+
   String get category => json["category"];
+
   String get language => json["type"];
+
   String get revision => json["revision"];
+
   String get name => json["name"];
-  List<String> get requires => json.containsKey("requires") ? json["requires"] : [];
+
+  List<String> get requires =>
+      json.containsKey("requires") ? json["requires"] : [];
+
   bool get extra => json.containsKey("extra") ? json["extra"] : false;
 
   dynamic operator [](String name) {

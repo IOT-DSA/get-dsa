@@ -25,6 +25,19 @@
                 [selection]="selectedDistVersion">
         </material-dropdown-select>
     </div>
+    <div>
+        <h4 class="configLabel">DSLinks</h4>
+        <material-dropdown-select
+                [buttonText]="selectedLinksLabel"
+                [options]="links"
+                [selection]="selectedLinks">
+            <!-- Search box -->
+            <!--<material-select-searchbox
+                label="Search..."
+                [filterable]="links">
+            </material-select-searchbox>-->
+        </material-dropdown-select>
+    </div>
 
     <material-button id="build-button"
                      (click)="buildPackageButton()"

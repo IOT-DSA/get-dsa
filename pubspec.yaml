@@ -9,6 +9,7 @@ dependencies:
   archive: ^1.0.19
   angular: ^4.0.0
   angular_components: ^0.8.0
+  sass_builder: ^1.0.1
 
 dev_dependencies:
   angular_test: ^1.0.0
@@ -17,6 +18,8 @@ dev_dependencies:
   test: ^0.12.0
 
 transformers:
+- sass_builder:
+    outputExtension: .scss.css
 - angular:
     entry_points:
       - web/main.dart
