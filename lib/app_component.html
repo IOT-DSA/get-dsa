@@ -1,0 +1,26 @@
+<div class="packager">
+    <h1>Get DSA</h1>
+
+    <div>
+        <h4 class="configLabel">Platform</h4>
+        <material-dropdown-select
+                buttonText="Platform"
+                [options]="platforms">
+        </material-dropdown-select>
+    </div>
+    <div>
+        <h4 class="configLabel">Distribution</h4>
+        <material-dropdown-select
+                buttonText="Distribution"
+                [options]="dists">
+        </material-dropdown-select>
+    </div>
+
+    <material-button id="build-button" layout="row" layout-align="center center">
+        Build Package
+    </material-button>
+
+    <div id="help">
+        Help is here
+    </div>
+</div>
