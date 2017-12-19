@@ -16,9 +16,16 @@
         </material-dropdown-select>
     </div>
 
-    <material-button id="build-button" layout="row" layout-align="center center">
+    <material-button id="build-button"
+                     (click)="buildPackage()"
+                     [disabled]="buildDisabled"
+                     [materialTooltip]="buildTooltip">
         Build Package
     </material-button>
+
+    <div [hidden]="statusHidden">
+        <material-spinner></material-spinner>   Building package...
+    </div>
 
     <div id="help">
         Help is here

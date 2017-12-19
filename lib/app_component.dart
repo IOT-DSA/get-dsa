@@ -9,6 +9,10 @@ import 'package:angular_components/angular_components.dart';
   providers: const [materialProviders],
 )
 class AppComponent {
+  bool buildDisabled = true;
+  String buildTooltip = "Platform and Distribution are required.";
+  bool statusHidden = true;
+
   static const List<Option> _platforms = const [
     const Option("windows-ia32", "x32 Windows"),
     const Option("windows-x64", "x64 Windows"),
@@ -34,6 +38,15 @@ class AppComponent {
   SelectionOptions<Option> get platforms => new SelectionOptions.fromList(_platforms);
 
   SelectionOptions<Option> get dists => new SelectionOptions.fromList(_dists);
+
+  buildPackage() {
+    if (buildDisabled) {
+      buildDisabled = false;
+      return;
+    }
+
+    statusHidden = false;
+  }
 }
 
 class Option implements HasUIDisplayName {
