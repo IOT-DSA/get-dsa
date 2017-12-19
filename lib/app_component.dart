@@ -31,13 +31,26 @@ class AppComponent {
     const Option("android", "ARM Android")
   ];
 
+  SelectionModel<Option> selectedPlatform = new SelectionModel.withList();
+
+  SelectionOptions<Option> get platforms =>
+      new SelectionOptions.fromList(_platforms);
+
+  String get selectedPlatformLabel => selectedPlatform.selectedValues.length > 0
+      ? selectedPlatform.selectedValues.first.label
+      : "Platform";
+
   static const List<Option> _dists = const [
     const Option("dglux-server", "DGLux Server")
   ];
 
-  SelectionOptions<Option> get platforms => new SelectionOptions.fromList(_platforms);
+  SelectionModel<Option> selectedDist = new SelectionModel.withList();
 
   SelectionOptions<Option> get dists => new SelectionOptions.fromList(_dists);
+
+  String get selectedDistLabel => selectedDist.selectedValues.length > 0
+      ? selectedDist.selectedValues.first.label
+      : "Distribution";
 
   buildPackage() {
     if (buildDisabled) {

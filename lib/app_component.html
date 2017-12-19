@@ -4,15 +4,17 @@
     <div>
         <h4 class="configLabel">Platform</h4>
         <material-dropdown-select
-                buttonText="Platform"
-                [options]="platforms">
+                [buttonText]="selectedPlatformLabel"
+                [options]="platforms"
+                [selection]="selectedPlatform">
         </material-dropdown-select>
     </div>
     <div>
         <h4 class="configLabel">Distribution</h4>
         <material-dropdown-select
-                buttonText="Distribution"
-                [options]="dists">
+                [buttonText]="selectedDistLabel"
+                [options]="dists"
+                [selection]="selectedDist">
         </material-dropdown-select>
     </div>
 
