@@ -1,0 +1,58 @@
+<div class="packager">
+    <h1>Get DSA</h1>
+
+    <div>
+        <h4 class="configLabel">Platform</h4>
+        <material-dropdown-select
+                [buttonText]="selectedPlatformLabel"
+                [options]="platforms"
+                [selection]="selectedPlatform">
+        </material-dropdown-select>
+    </div>
+    <div>
+        <h4 class="configLabel">Distribution</h4>
+        <material-dropdown-select
+                [buttonText]="selectedDistLabel"
+                [options]="dists"
+                [selection]="selectedDist">
+        </material-dropdown-select>
+    </div>
+    <div>
+        <h4 class="configLabel">Version</h4>
+        <material-dropdown-select
+                [buttonText]="selectedDistVersionLabel"
+                [options]="distVersions"
+                [selection]="selectedDistVersion">
+        </material-dropdown-select>
+    </div>
+    <div>
+        <h4 class="configLabel">DSLinks</h4>
+        <material-dropdown-select
+                [buttonText]="selectedLinksLabel"
+                [options]="links"
+                [selection]="selectedLinks">
+            <!-- Search box -->
+            <!--<material-select-searchbox
+                label="Search..."
+                [filterable]="links">
+            </material-select-searchbox>-->
+        </material-dropdown-select>
+    </div>
+
+    <material-button id="build-button"
+                     (click)="buildPackageButton()"
+                     [materialTooltip]="buildTooltip">
+        Build Package
+    </material-button>
+
+    <div [hidden]="statusHidden">
+        <material-spinner></material-spinner>
+        {{statusText}}
+    </div>
+
+    <br>
+
+    <div id="help">
+        <span [innerHTML]="helpText"></span>
+    </div>
+</div>
