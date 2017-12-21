@@ -149,8 +149,7 @@ class AppComponent {
   static List<OptionGroup<Option>> _links = [];
   SelectionModel<Option> selectedLinks = new SelectionModel.withList(allowMulti: true);
 
-  SelectionOptions<Option> get links =>
-      new SelectionOptions.withOptionGroups(_links);
+  SelectionOptions<Option> links = new SelectionOptions.withOptionGroups(_links);
   // TODO: Fix search box
   //LinkSelectionOptions get links => new LinkSelectionOptions.withOptionGroups(_links);
 
