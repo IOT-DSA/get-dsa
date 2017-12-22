@@ -30,6 +30,6 @@ transformers:
 
 # Uncomment the following in sdk 1.24+ to make pub serve
 # use dartdevc (webdev.dartlang.org/tools/dartdevc).
-web:
-  compiler:
-    debug: dartdevc
+#web:
+  #compiler:
+    #debug: dartdevc
