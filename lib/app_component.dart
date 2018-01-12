@@ -196,6 +196,11 @@ class AppComponent {
   }
 
   buildPackageButton() async {
+    if (selectedPlatform.selectedValues.length == 0 ||
+        selectedDist.selectedValues.length == 0) {
+      return;
+    }
+
     statusHidden = false;
 
     String platform = selectedPlatform.selectedValues.first.code;
