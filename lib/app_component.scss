@@ -5,6 +5,14 @@
 @import 'package:angular_components/material_button/mixins';
 @import 'package:angular_components/material_progress/mixins';
 
+// ** MATERIAL OVERRIDES **
+
+$mat-font-family: 'Open Sans', sans-serif;
+
+* {
+  font-family: $mat-font-family !important;
+}
+
 // ** COLORS **
 
 $atrius-color: #0a99d5;
@@ -70,7 +78,6 @@ $options-width: 550px;
 
       .material-header-title {
         left: 12px;
-        font-family: 'Open Sans', sans-serif;
       }
     }
 
@@ -92,16 +99,12 @@ $options-width: 550px;
 
       & > .dropdown-select-holder {
         flex: 2;
-
-        font-family: 'Open Sans', sans-serif;
       }
     }
 
     & > material-button {
       margin: 16px 0 8px 0;
       border-radius: 100px;
-
-      font-family: 'Open Sans', sans-serif;
     }
   }
 
@@ -121,16 +124,12 @@ $options-width: 550px;
 .packager .configLabel {
   display: inline;
 
-  font-family: 'Open Sans', sans-serif;
-
   line-height: 48px;
   color: $mat-secondary-txt;
 }
 
 .packager .dropdown-select-holder {
   transform: translate(0, 4px);
-
-  font-family: 'Open Sans', sans-serif;
 
   @include vert-center();
 
@@ -141,5 +140,4 @@ $options-width: 550px;
 
 .help {
   padding: 20px;
-  font-family: 'Open Sans', sans-serif;
 }
