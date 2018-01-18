@@ -23,19 +23,19 @@ final String ANDROID_RUN_SCRIPT = [
   r"set -e",
   r"adb shell cp /sdcard/dsa/dart-sdk/bin/dart /data/local/tmp/dart"
   r"adb shell chmod 757 /data/local/tmp/dart",
-  r"adb shell /data/local/tmp/dart /sdcard/dsa/dglux-server/bin/dglux_server.dart"
+  r"adb shell /data/local/tmp/dart /sdcard/dsa/dsa-server/bin/dglux_server.dart"
 ].join("\n");
 
 String createPlatformHelp(String platform) {
   String howToStart = """
   <p>
-  Open a Terminal and change to the dglux-server directory in the extracted ZIP location.<br/>
+  Open a Terminal and change to the dsa-server directory in the extracted ZIP location.<br/>
   Run the following commands:<br/>
   <code>
   chmod 777 bin/*.sh<br/>
   ./bin/daemon.sh start
   </code><br/>
-  You should be able to access DGLux5 at: http://localhost:8080<br/>
+  You will be able to access Atrius Solution Builder at: http://localhost:8080<br/>
   Default credentials are: dgSuper / dglux1234<br/>
   </p>
 
@@ -45,13 +45,13 @@ String createPlatformHelp(String platform) {
   if (platform.contains("Windows")) {
     howToStart = """
     <p>
-    Navigate to the dglux-server folder in the extracted ZIP location.<br/>
+    Navigate to the dsa-server folder in the extracted ZIP location.<br/>
     Open a new Command Prompt here.<br/>
     Run the following command:<br/>
     <code>
     bin\\daemon.bat start
     </code><br/>
-  You should be able to access DGLux5 at: http://localhost:8080<br/>
+  You will be able to access Atrius Solution Builder at: http://localhost:8080<br/>
   Default credentials are: dgSuper / dglux1234<br/>
     </p>
 
@@ -70,7 +70,7 @@ String createPlatformHelp(String platform) {
     bash install.sh<br/>
     bash run.sh
     </code><br/>
-  You should be able to access DGLux5 at: http://device-ip:8080<br/>
+  You should be able to access Atrius Solution Builder at: http://device-ip:8080<br/>
   Default credentials are: dgSuper / dglux1234<br/>
     </p>
 
