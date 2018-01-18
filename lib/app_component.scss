@@ -104,6 +104,7 @@ $options-width: 550px;
 
     & > material-button {
       margin: 16px 0 8px 0;
+      padding: 0 25px;
       border-radius: 100px;
     }
   }
@@ -136,6 +137,10 @@ $options-width: 550px;
   & > * {
     flex: 1;
   }
+}
+
+.build-button-label {
+  text-transform: none;
 }
 
 .help {
