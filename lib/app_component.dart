@@ -126,10 +126,10 @@ class AppComponent {
       ? selectedPlatform.selectedValues.first.label
       : "Platform";
 
-  static List<Option> _dists = [];
+  static List<OptionGroup<Option>> _dists = [];
   SelectionModel<Option> selectedDist = new SelectionModel.withList();
 
-  SelectionOptions<Option> get dists => new SelectionOptions.fromList(_dists);
+  SelectionOptions<Option> get dists => new SelectionOptions.withOptionGroups(_dists);
 
   String get selectedDistLabel => selectedDist.selectedValues.length > 0
       ? selectedDist.selectedValues.first.label
@@ -150,8 +150,6 @@ class AppComponent {
   SelectionModel<Option> selectedLinks = new SelectionModel.withList(allowMulti: true);
 
   SelectionOptions<Option> links = new SelectionOptions.withOptionGroups(_links);
-  // TODO: Fix search box
-  //LinkSelectionOptions get links => new LinkSelectionOptions.withOptionGroups(_links);
 
   String get selectedLinksLabel => "${selectedLinks.selectedValues.length} links selected";
 
@@ -172,12 +170,7 @@ class AppComponent {
       helpText = createPlatformHelp(selectedPlatform.selectedValues.first.code);
     });
 
-    loadDistributions().then((dists) {
-      dists.forEach((dist) {
-        _dists.add(new Option(dist.id, dist.name));
-      });
-      _backendDists = dists;
-    });
+    refreshDists();
 
     loadLinks().then((l) {
       linkModels.addAll(l.map((x) => new DSLinkModel(x)));
@@ -193,6 +186,25 @@ class AppComponent {
         optionGroup.add(new Option(x.name, x.displayName));
       });
     });
+  }
+
+  refreshDists() async {
+    loadDistributions().then((dists) {
+      _dists.clear();
+      var current = new OptionGroup<Option>.withLabel([], "Current");
+      var archived = new OptionGroup<Option>.withLabel([], "Archived");
+      _dists.add(current);
+      _dists.add(archived);
+      dists.forEach((dist) {
+        if (!dist.archived) {
+          current.add(new Option(dist.id, dist.name));
+        } else {
+          archived.add(new Option(dist.id, dist.name));
+        }
+      });
+      _backendDists = dists;
+    });
+
   }
 
   buildPackageButton() async {

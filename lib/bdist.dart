@@ -17,8 +17,9 @@ class Distribution {
   final String file;
   final List<String> wrappers;
   final String directoryName;
+  final boolean archived;
 
-  Distribution(this.id, this.name, this.latest, this.file, this.wrappers, this.directoryName);
+  Distribution(this.id, this.name, this.latest, this.file, this.wrappers, this.directoryName, this.archived);
 
   factory Distribution.fromJSON(String id, input) {
     return new Distribution(
@@ -27,7 +28,8 @@ class Distribution {
         input["latest"],
         input["file"],
         input.containsKey("wrappers") ? input["wrappers"] : [],
-        input.containsKey("directoryName") ? input["directoryName"] : id
+        input.containsKey("directoryName") ? input["directoryName"] : id,
+        input.containsKey("archived") ? input["archived"] : false
     );
   }
 
