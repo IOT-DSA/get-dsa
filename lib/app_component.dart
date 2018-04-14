@@ -9,6 +9,7 @@ import 'package:archive/archive.dart';
 import 'package:get_dsa/bdist.dart';
 import 'package:get_dsa/packager.dart';
 import 'package:get_dsa/utils.dart';
+import 'package:gtag_analytics/gtag_analytics.dart';
 
 final String ANDROID_INSTALL_SCRIPT = [
   r"#!/usr/bin/env bash",
@@ -99,6 +100,8 @@ class AppComponent {
   bool statusHidden = true;
   String statusText = "";
   List<Distribution> _backendDists;
+
+  final analytics = new GoogleAnalytics();
 
   static const List<Option> _platforms = const [
     const Option("windows-ia32", "x32 Windows"),
@@ -223,6 +226,9 @@ class AppComponent {
     selectedLinks.selectedValues.forEach((opt) {
       ourLinks.add(linkModels.where((x) => x.name == opt.code).first);
     });
+
+    analytics.sendCustom("platform", category: dist.directoryName, label: platform);
+    analytics.sendCustom("version", category: dist.directoryName, label: version);
 
     statusText = "Fetching distribution...";
     var distArchive = await dist.download(version);
