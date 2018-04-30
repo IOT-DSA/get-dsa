@@ -43,7 +43,7 @@ String createPlatformHelp(String platform) {
   <p>Your DSA instance is now running!</p>
   """;
 
-  if (platform.contains("Windows")) {
+  if (platform.contains("windows")) {
     howToStart = """
     <p>
     Navigate to the dsa-server folder in the extracted ZIP location.<br/>
@@ -60,7 +60,7 @@ String createPlatformHelp(String platform) {
     """;
   }
 
-  if (platform.contains("Android")) {
+  if (platform.contains("android")) {
     howToStart = """
     <p>
     Ensure you have ADB installed and your device is plugged in.<br/>
@@ -170,7 +170,9 @@ class AppComponent {
     });
 
     selectedPlatform.selectionChanges.listen((n) {
-      helpText = createPlatformHelp(selectedPlatform.selectedValues.first.code);
+      var platform = selectedPlatform.selectedValues.first.code;
+      print("Changed platform help to: $platform");
+      helpText = createPlatformHelp(platform);
     });
 
     refreshDists();
