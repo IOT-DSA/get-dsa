@@ -82,8 +82,7 @@ String createPlatformHelp(String platform) {
   return """
   <h3>Installation Instructions</h3>
   Extract the ZIP file provided by the Get DSA Packager.<br/>
-  ${howToStart}<br/>
-  If you have a license for a previous installation that was generated before the 8th of July in 2015, please request a new license, and a new one will be generated for you.<br/>
+  ${howToStart}
   """;
 }
 
