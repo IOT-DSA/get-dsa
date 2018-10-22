@@ -190,8 +190,15 @@ class AppComponent {
         optionGroup.add(new Option(x.name, x.displayName));
       });
     });
-  }
+    if (window.location.host.contains('dglogik.com')){
+      () async {
+        document.querySelector('#distSelectDiv').style.display = 'none';
+      }();
 
+      selectDefaultDist = true;
+    }
+  }
+  bool selectDefaultDist = false;
   refreshDists() async {
     loadDistributions().then((dists) {
       _dists.clear();
@@ -206,6 +213,9 @@ class AppComponent {
           archived.add(new Option(dist.id, dist.name));
         }
       });
+      if (selectDefaultDist) {
+        selectedDist.select(current[0]);
+      }
       _backendDists = dists;
     });
 
