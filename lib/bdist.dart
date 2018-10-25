@@ -17,7 +17,7 @@ class Distribution {
   final String file;
   final List<String> wrappers;
   final String directoryName;
-  final boolean archived;
+  final bool archived;
 
   Distribution(this.id, this.name, this.latest, this.file, this.wrappers, this.directoryName, this.archived);
 

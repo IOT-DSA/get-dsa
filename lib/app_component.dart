@@ -194,7 +194,7 @@ class AppComponent {
       () async {
         document.querySelector('#distSelectDiv').style.display = 'none';
       }();
-
+      buildTooltip = "Platform is required.";
       selectDefaultDist = true;
     }
   }
