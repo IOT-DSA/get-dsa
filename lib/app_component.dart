@@ -37,7 +37,7 @@ String createPlatformHelp(String platform) {
   ./bin/daemon.sh start
   </code><br/>
   You will be able to access DG Solution Builder at: http://localhost:8080<br/>
-  Default credentials are: dgSuper / dglux1234<br/>
+  Default credentials are: dgSuper / dg1234<br/>
   </p>
 
   <p>Your DSA instance is now running!</p>
@@ -53,7 +53,7 @@ String createPlatformHelp(String platform) {
     bin\\daemon.bat start
     </code><br/>
   You will be able to access DG Solution Builder at: http://localhost:8080<br/>
-  Default credentials are: dgSuper / dglux1234<br/>
+  Default credentials are: dgSuper / dg1234<br/>
     </p>
 
     <p>Your DSA instance is now running!</p>
@@ -72,7 +72,7 @@ String createPlatformHelp(String platform) {
     bash run.sh
     </code><br/>
   You should be able to access DG Solution Builder at: http://device-ip:8080<br/>
-  Default credentials are: dgSuper / dglux1234<br/>
+  Default credentials are: dgSuper / dg1234<br/>
     </p>
 
     <p>Your DSA instance is now running on Android!</p>
