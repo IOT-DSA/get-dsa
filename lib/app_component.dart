@@ -190,7 +190,7 @@ class AppComponent {
         optionGroup.add(new Option(x.name, x.displayName));
       });
     });
-    if (window.location.host.contains('dglogik.com')){
+    if (window.location.host.contains(new RegExp(r'(dglogik\.com|dglux\.com)'))){
       () async {
         document.querySelector('#distSelectDiv').style.display = 'none';
       }();
@@ -214,7 +214,13 @@ class AppComponent {
         }
       });
       if (selectDefaultDist) {
-        selectedDist.select(current[0]);
+        var host = window.location.host;
+        if (host.contains('dglogik.com')) {
+          selectedDist.select(current[0]);
+        }
+        if (host.contains('dglux.com')) {
+          selectedDist.select(current[1]);
+        }
       }
       _backendDists = dists;
     });
