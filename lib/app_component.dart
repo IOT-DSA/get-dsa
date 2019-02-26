@@ -23,7 +23,7 @@ final String ANDROID_RUN_SCRIPT = [
   r"#!/usr/bin/env bash",
   r"set -e",
   r"adb shell cp /sdcard/dsa/dart-sdk/bin/dart /data/local/tmp/dart"
-  r"adb shell chmod 757 /data/local/tmp/dart",
+      r"adb shell chmod 757 /data/local/tmp/dart",
   r"adb shell /data/local/tmp/dart /sdcard/dsa/dsa-server/bin/dglux_server.dart"
 ].join("\n");
 
@@ -206,21 +206,22 @@ class AppComponent {
       var archived = new OptionGroup<Option>.withLabel([], "Archived");
       _dists.add(current);
       _dists.add(archived);
-      dists.forEach((dist) {
-        if (!dist.archived) {
-          current.add(new Option(dist.id, dist.name));
-        } else {
-          archived.add(new Option(dist.id, dist.name));
-        }
-      });
       if (selectDefaultDist) {
         var host = window.location.host;
         if (host.contains('dglogik.com')) {
-          selectedDist.select(current[0]);
+          current.add(new Option(dists[0].id, dists[0].name));
+        } else if (host.contains('dglux.com')) {
+          current.add(new Option(dists[1].id, dists[1].name));
         }
-        if (host.contains('dglux.com')) {
-          selectedDist.select(current[1]);
-        }
+        selectedDist.select(current[0]);
+      } else {
+        dists.forEach((dist) {
+          if (!dist.archived) {
+            current.add(new Option(dist.id, dist.name));
+          } else {
+            archived.add(new Option(dist.id, dist.name));
+          }
+        });
       }
       _backendDists = dists;
     });
