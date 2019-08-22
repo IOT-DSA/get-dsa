@@ -190,15 +190,15 @@ class AppComponent {
         optionGroup.add(new Option(x.name, x.displayName));
       });
     });
-    if (window.location.host.contains(new RegExp(r'(dglogik\.com|dglux\.com)'))){
-      () async {
-        document.querySelector('#distSelectDiv').style.display = 'none';
-      }();
-      buildTooltip = "Platform is required.";
-      selectDefaultDist = true;
-    }
+//    if (window.location.host.contains(new RegExp(r'(dglogik\.com|dglux\.com)'))){
+//      () async {
+//        document.querySelector('#distSelectDiv').style.display = 'none';
+//      }();
+    buildTooltip = "Platform is required.";
+//      selectDefaultDist = true;
+//    }
   }
-  bool selectDefaultDist = false;
+//  bool selectDefaultDist = false;
   refreshDists() async {
     loadDistributions().then((dists) {
       _dists.clear();
@@ -206,23 +206,28 @@ class AppComponent {
       var archived = new OptionGroup<Option>.withLabel([], "Archived");
       _dists.add(current);
       _dists.add(archived);
-      if (selectDefaultDist) {
-        var host = window.location.host;
-        if (host.contains('dglogik.com')) {
-          current.add(new Option(dists[0].id, dists[0].name));
-        } else if (host.contains('dglux.com')) {
-          current.add(new Option(dists[1].id, dists[1].name));
-        }
-        selectedDist.select(current[0]);
-      } else {
-        dists.forEach((dist) {
-          if (!dist.archived) {
-            current.add(new Option(dist.id, dist.name));
-          } else {
-            archived.add(new Option(dist.id, dist.name));
-          }
-        });
-      }
+
+      current.add(new Option(dists[1].id, dists[1].name));
+      selectedDist.select(current[0]);
+
+//      if (selectDefaultDist) {
+//        var host = window.location.host;
+//        if (host.contains('dglogik.com')) {
+//          current.add(new Option(dists[0].id, dists[0].name));
+//        } else if (host.contains('dglux.com')) {
+//          current.add(new Option(dists[1].id, dists[1].name));
+//        }
+//        selectedDist.select(current[0]);
+//      } else {
+//        dists.forEach((dist) {
+//          if (!dist.archived) {
+//            current.add(new Option(dist.id, dist.name));
+//          } else {
+//            archived.add(new Option(dist.id, dist.name));
+//          }
+//        });
+//      }
+
       _backendDists = dists;
     });
 
