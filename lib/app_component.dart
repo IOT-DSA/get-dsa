@@ -36,7 +36,7 @@ String createPlatformHelp(String platform) {
   chmod 777 bin/*.sh<br/>
   ./bin/daemon.sh start
   </code><br/>
-  You will be able to access DG Solution Builder at: http://localhost:8080<br/>
+  You will be able to access DGLux at: http://localhost:8080<br/>
   Default credentials are: dgSuper / dg1234<br/>
   </p>
 
@@ -52,7 +52,7 @@ String createPlatformHelp(String platform) {
     <code>
     bin\\daemon.bat start
     </code><br/>
-  You will be able to access DG Solution Builder at: http://localhost:8080<br/>
+  You will be able to access DGLux at: http://localhost:8080<br/>
   Default credentials are: dgSuper / dg1234<br/>
     </p>
 
@@ -71,7 +71,7 @@ String createPlatformHelp(String platform) {
     bash install.sh<br/>
     bash run.sh
     </code><br/>
-  You should be able to access DG Solution Builder at: http://device-ip:8080<br/>
+  You should be able to access DGLux at: http://device-ip:8080<br/>
   Default credentials are: dgSuper / dg1234<br/>
     </p>
 
