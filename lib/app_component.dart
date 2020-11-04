@@ -57,6 +57,19 @@ String createPlatformHelp(String platform) {
     </p>
 
     <p>Your DSA instance is now running!</p>
+    
+    <p>
+    Install as a service:<br/>
+    In the search bar on your start menu, type in "cmd"<br />
+    Locate command prompt, right click on it, and choose "Run as administrator"<br />
+    Change to the dsa-server folder extracted form the ZIP.<br />
+    Eg: <code>cd C:\\dsa\\dsa-server</code><br />
+    Run the following command:<br/>
+    <code>
+    bin\\daemon.bat install-service
+    </code><br />
+    Open the "services" application and confirm you see "DGLux Service" now listed.
+    </p>
     """;
   }
 
